@@ -777,7 +777,7 @@ function gameLoop () {
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));	
 		alert ("White has won!");		
 		drawChessboard();
-	} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true) {
+	} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true && (mouseToCoords(nextTurnOrigin) != mouseToCoords(nextTurnDestination))) {
 		originBeforeMovement = mouseToArray(nextTurnOrigin); //Only used for console.log
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 		playerTurn = playerTurn * (-1);
