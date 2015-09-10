@@ -16,13 +16,15 @@ var nextTurnOrigin = [0,0];
 var nextTurnDestination = [0,0];
 
 function getMouseCoordsOrigin(event) {
-	nextTurnOrigin[0] = event.clientX - 10; //-10 to offeset the canvas positioning
-	nextTurnOrigin[1] = event.clientY - 10;
+        var rect = canvas.getBoundingClientRect();
+        nextTurnOrigin[0] = event.clientX - rect.left;
+        nextTurnOrigin[1] = event.clientY - rect.top;
 };
 
 function getMouseCoordsDestination(event) {
-	nextTurnDestination[0] = event.clientX;
-	nextTurnDestination[1] = event.clientY;
+        var rect = canvas.getBoundingClientRect();
+        nextTurnDestination[0] = event.clientX - rect.left;
+        nextTurnDestination[1] = event.clientY - rect.top;
 };
 
 var mouseStopVar = 0; 
