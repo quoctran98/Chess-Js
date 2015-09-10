@@ -642,12 +642,6 @@ function blackPawnCheck (origin, destination) {
 //Output: Boolean based on the Piece Check Functions 
 //Relies On: "mouseToCoords", "nextTurnDestination", "nextTurnOrigin," and all above Piece Check funtions
 function moveCheck (piece) {
-	if (mouseToCoords(nextTurnOrigin) == mouseToCoords(nextTurnDestination)) {
-		return false;
-		break;
-	} else {
-		console.log("moveCheck: part 1 true");
-	};
 	if ((piece == KI) || (piece == ki)) {
 		return(kingCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	} else if ((piece == QU) || (piece == qu)) {
