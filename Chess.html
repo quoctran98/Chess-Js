@@ -640,26 +640,38 @@ function blackPawnCheck (origin, destination) {
 //This function finds the correct piece check function and runs it.
 //Input: Chess Piece Variable
 //Output: Boolean based on the Piece Check Functions 
-//Relies On: "mouseToCoords", "nextTurnDestination", "nextTurnOrigin"
+//Relies On: "mouseToCoords", "nextTurnDestination", "nextTurnOrigin," and all above Piece Check funtions
 function moveCheck (piece) {
+	var1 = false;
+	var 2 = false;
 	if ((piece == KI) || (piece == ki)) {
-		return kingCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
+		var1 = (kingCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	} else if ((piece == QU) || (piece == qu)) {
-		return queenCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
+		var1 = (queenCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	} else if ((piece == BI) || (piece == bi)) {
-		return bishopCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
+		var1 = (bishopCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	} else if ((piece == KN) || (piece == kn)) {
-		return knightCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
+		var1 = (knightCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	} else if ((piece == RO) || (piece == ro)) {
-		return rookCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
+		var1 = (rookCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	} else if (piece == PA) {
-		return whitePawnCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
+		var1 = (whitePawnCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	} else if (piece == pa) {
-		return blackPawnCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
+		var1 = (blackPawnCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	} else if (piece == empty) {
-		return "There is no piece located there.";
+		var1 = false;
 	} else {
-		return "Error: function checkDecider";
+		var1 = false;
+	};
+	if (mouseToCoords(nextTurnOrigin) == mouseToCoords(nextTurnDestination)) {
+		var2 = false;
+	} else {
+		var2 = false;
+	};
+	if (var1 == true && var2 == false) {
+		return true;
+	} else {
+		return false;
 	};
 };
 
@@ -777,7 +789,7 @@ function gameLoop () {
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));	
 		alert ("White has won!");		
 		drawChessboard();
-	} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true && (mouseToCoords(nextTurnOrigin) != mouseToCoords(nextTurnDestination)) {
+	} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true) {
 		originBeforeMovement = mouseToArray(nextTurnOrigin); //Only used for console.log
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 		playerTurn = playerTurn * (-1);
