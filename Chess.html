@@ -766,8 +766,6 @@ setTimeout(drawChessboard(), 3000);
 {
 var playerTurn = 1;
 
-var samePlace = (mouseToCoords(nextTurnOrigin) == mouseToCoords(nextTurnDestination));
-
 //This function is called when mouseStop is called for the second time and moves pieces.
 //SOMETHING IS WRONG WITH THIS
 function gameLoop () {
@@ -779,7 +777,7 @@ function gameLoop () {
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));	
 		alert ("White has won!");		
 		drawChessboard();
-	} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true && samePlace == false {
+	} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true && (mouseToCoords(nextTurnOrigin) != mouseToCoords(nextTurnDestination)) {
 		originBeforeMovement = mouseToArray(nextTurnOrigin); //Only used for console.log
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 		playerTurn = playerTurn * (-1);
