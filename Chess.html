@@ -12,19 +12,21 @@
 //Every time the canvas is pressed, the x and y coordinates of the mouse are logged in nextTurnOrigin the first time and nextTurnDestination.
 //At the beginning of the next turn, mouseStopVar should be reset to 0.
 
+//Offset for the canvas from the edge of the screen. I should change this.
+var xOffset = 10;
+var yOffset = 10;
+
 var nextTurnOrigin = [0,0];
 var nextTurnDestination = [0,0];
 
 function getMouseCoordsOrigin(event) {
-        var rect = canvas.getBoundingClientRect();
-        nextTurnOrigin[0] = event.clientX - rect.left;
-        nextTurnOrigin[1] = event.clientY - rect.top;
+	nextTurnOrigin[0] = event.clientX - xOffset;
+	nextTurnOrigin[1] = event.clientY - yOffset;
 };
 
 function getMouseCoordsDestination(event) {
-        var rect = canvas.getBoundingClientRect();
-        nextTurnDestination[0] = event.clientX - rect.left;
-        nextTurnDestination[1] = event.clientY - rect.top;
+	nextTurnDestination[0] = event.clientX - xOffset;
+	nextTurnDestination[1] = event.clientY - yOffset;
 };
 
 var mouseStopVar = 0; 
