@@ -640,26 +640,26 @@ function blackPawnCheck (origin, destination) {
 //This function finds the correct piece check function and runs it.
 //Input: Chess Piece Variable
 //Output: Boolean based on the Piece Check Functions 
-//Relies On: "mouseToCoords", "nextTurnDestination", "nextTurnOrigin," and all above Piece Check funtions
+//Relies On: "mouseToCoords", "nextTurnDestination", "nextTurnOrigin"
 function moveCheck (piece) {
 	if ((piece == KI) || (piece == ki)) {
-		return (kingCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
+		return kingCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	} else if ((piece == QU) || (piece == qu)) {
-		return (queenCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
+		return queenCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	} else if ((piece == BI) || (piece == bi)) {
-		return (bishopCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
+		return bishopCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	} else if ((piece == KN) || (piece == kn)) {
-		return (knightCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
+		return knightCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	} else if ((piece == RO) || (piece == ro)) {
-		return (rookCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
+		return rookCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	} else if (piece == PA) {
-		return (whitePawnCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
+		return whitePawnCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	} else if (piece == pa) {
-		return (blackPawnCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
+		return blackPawnCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	} else if (piece == empty) {
-		return false;
+		return "There is no piece located there.";
 	} else {
-		return false;
+		return "Error: function checkDecider";
 	};
 };
 
