@@ -562,13 +562,13 @@ var blackCastleYet = false;
 //Relies On: "mouseToCoords", "mouseToArray", "nextTurnDestination", "nextTurnOrigin","movePiece", and the chessBoard arrays
 function whiteCastling() {
 	var destinationCoords = mouseToCoords(nextTurnDestination);
-	if (mouseToArray(nextTurnOrigin) == KI && destinationCoords[0] == 7 
+	if (mouseToArray(nextTurnOrigin) == KI && destinationCoords[0] == 7 && whiteCastleYet == false
 	&& destinationCoords[1] == 8 && chessBoard8[7] == RO && chessBoard8[6] == empty && chessBoard8[5] == empty) {
 		movePiece(mouseToCoords(nextTurnOrigin),mouseToCoords(nextTurnDestination));
 		movePiece(['8','8'],['6','8']);
 		console.log ("White has kingside castled.");
 		return true;
-	} else if (mouseToArray(nextTurnOrigin) == KI && destinationCoords[0] == 2
+	} else if (mouseToArray(nextTurnOrigin) == KI && destinationCoords[0] == 2 && blackCastleYet == false
 	&& destinationCoords[1] == 8 && chessBoard8[0] == RO && chessBoard8[1] == empty && chessBoard8[2] == empty && chessBoard8[3] == empty) {
 		movePiece(mouseToCoords(nextTurnOrigin),mouseToCoords(nextTurnDestination));
 		movePiece(['1','8'],['3','8']);
@@ -796,11 +796,13 @@ function gameLoop () {
 		
 	} else if (whiteCastling() == true && whiteCastleYet == false) { 
 		whiteCastleYet = true;
+		playerTurn = playerTurn * (-1);
 		drawChessboardOutline();
 		drawChessboard();
-		
+				
 	} else if (blackCastling() == true && blackCastleYet == false) { 
 		blackCastleYet = true;
+		playerTurn = playerTurn * (-1);
 		drawChessboardOutline();
 		drawChessboard();
 		
