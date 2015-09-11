@@ -717,9 +717,22 @@ function blackPawnCheck (origin, destination) {
 var whiteCastleYet = false; 
 var blackCastleYet = false;
 
-function whiteKingsideCastling() {
-	if (mouseToArray(nextTurnOrigin) == KI && (mouseToCoords(nextTurnDestination))[0] == 7 
-	&& (mouseToCoords(nextTurnDestination))[1] == 8 && chessBoard8[7] == RO && chessBoard8[6] == empty && chessBoard8[5] == empty) {
+//This function checks if white is trying to castle queenside or kingside and checks the validity as well as moves the pieces.
+//Input: none (run through gameLoop())
+//Output: Boolean and calls on movePiece
+//Relies On: "mouseToCoords", "mouseToArray", "nextTurnDestination", "nextTurnOrigin","movePiece", and the chessBoard arrays
+function whiteCastling() {
+	var destinationCoords = mouseToCoords(nextTurnDestination);
+	if (mouseToArray(nextTurnOrigin) == KI && destinationCoords[0] == 6 
+	&& destinationCoords[1] == 8 && chessBoard8[7] == RO && chessBoard8[6] == empty && chessBoard8[5] == empty) {
+		movePiece([8,5],[8,7]);
+		movePiece([8,8],[8,6]);
+		console.log ("White king has kingside castled.");
+		return true;
+	} else if (mouseToArray(nextTurnOrigin) == KI && destinationCoords[0] == 3 
+	&& destinationCoords[1] == 8 && chessBoard8[0] == RO && chessBoard8[1] == empty && chessBoard8[2] == empty && chessBoard8[3] == empty) {
+		movePiece([8,5],[8,2]);
+		movePiece([8,0],[8,3]);
 		console.log ("White king has kingside castled.");
 		return true;
 	} else {
@@ -910,11 +923,10 @@ function gameLoop () {
 		alert ("White has won!");		
 		drawChessboardOutline();
 		setTimeout(drawChessboard(), 5000);
-	} else if (whiteKingsideCastling == true) {
+	} else if (whiteCastling == true && whiteCastleYet == false) { //White Castling Check
 		whiteCastleYet = true;
-		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));	
+		drawChessboardOutline();		
 		setTimeout(drawChessboard(), 5000);
-		drawChessboardOutline();
 	} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true && samePlace() == true && gameFlow() == true) {
 		originBeforeMovement = mouseToArray(nextTurnOrigin); //Only used for console.log
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
