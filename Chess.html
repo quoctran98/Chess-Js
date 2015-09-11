@@ -877,6 +877,7 @@ var playerTurn = 1;
 //This function determines whether or not it is your turn and if you can move that piece.
 function gameFlow () {
 	var turnChoose = false;
+	var turnEat = false;
 	
 	if ((playerTurn == 1) && (mouseToArray(nextTurnOrigin) == KI || mouseToArray(nextTurnOrigin) == QU || mouseToArray(nextTurnOrigin) == BI || mouseToArray(nextTurnOrigin) == KN || mouseToArray(nextTurnOrigin) == RO || mouseToArray(nextTurnOrigin) == PA)) {
 		turnChoose = true;
@@ -886,7 +887,15 @@ function gameFlow () {
 		turnChoose = false;
 	};
 	
-	return turnChoose;
+	if ((playerTurn == -1) && (mouseToArray(nextTurnDestination) == KI || mouseToArray(nextTurnDestination) == QU || mouseToArray(nextTurnDestination) == BI || mouseToArray(nextTurnDestination) == KN || mouseToArray(nextTurnDestination) == RO || mouseToArray(nextTurnDestination) == PA || mouseToArray(nextTurnDestination) == empty)) {
+		turnEat = true;
+	} else if ((playerTurn == 1) && (mouseToArray(nextTurnDestination) == ki || mouseToArray(nextTurnDestination) == qu || mouseToArray(nextTurnDestination) == bi || mouseToArray(nextTurnDestination) == kn || mouseToArray(nextTurnDestination) == ro || mouseToArray(nextTurnDestination) == pa || mouseToArray(nextTurnDestination) == empty)){
+		turnEat = true;
+	} else {
+		turnEat = false;
+	};	
+	
+	return (turnChoose && turnEat);
 };
 
 //This function is called when mouseStop is called for the second time and moves pieces.
@@ -924,7 +933,9 @@ function gameLoop () {
 		console.log(chessBoard8);
 		//For console log.
 	} else if (gameFlow() == false) {
-		alert ("It is not your turn.");
+		alert ("It is either not your turn or you are trying to eat your own pieces.");
+		drawChessboardOutline();
+		setTimeout(drawChessboard(), 5000);
 	} else {
 		drawChessboardOutline();
 		setTimeout(drawChessboard(), 5000);
