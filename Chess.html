@@ -35,6 +35,7 @@ var mouseStopVar = 0;
 function mouseStop (){
 	if (mouseStopVar == 0) {
 		getMouseCoordsOrigin(event);
+		drawBlueDot(nextTurnOrigin[0] - 38, nextTurnOrigin[1] - 38);
 		mouseStopVar = mouseStopVar + 1;
 	} else {
 		getMouseCoordsDestination(event);
@@ -85,10 +86,47 @@ function drawHTMLChessboardSquares () {
 	 ctx.drawImage(blackSquare,375,525,75,75);
 	 ctx.drawImage(blackSquare,525,525,75,75);		 
     };
+
+	var c = document.getElementById("chessboard");
+	var ctx = c.getContext("2d");
+    var whiteSquare = new Image();
+    whiteSquare.src = "white_square.png";
+    whiteSquare.onload = function() {
+	 ctx.drawImage(whiteSquare,75,75,75,75);
+	 ctx.drawImage(whiteSquare,225,75,75,75);
+	 ctx.drawImage(whiteSquare,375,75,75,75);
+	 ctx.drawImage(whiteSquare,525,75,75,75);
+	 ctx.drawImage(whiteSquare,150,150,75,75);
+	 ctx.drawImage(whiteSquare,300,150,75,75);
+	 ctx.drawImage(whiteSquare,450,150,75,75);
+	 ctx.drawImage(whiteSquare,600,150,75,75);
+	 ctx.drawImage(whiteSquare,75,225,75,75);
+	 ctx.drawImage(whiteSquare,225,225,75,75);
+	 ctx.drawImage(whiteSquare,375,225,75,75);
+	 ctx.drawImage(whiteSquare,525,225,75,75);	
+	 ctx.drawImage(whiteSquare,150,300,75,75);
+	 ctx.drawImage(whiteSquare,300,300,75,75);
+	 ctx.drawImage(whiteSquare,450,300,75,75);
+	 ctx.drawImage(whiteSquare,600,300,75,75);
+	 ctx.drawImage(whiteSquare,75,375,75,75);
+	 ctx.drawImage(whiteSquare,225,375,75,75);
+	 ctx.drawImage(whiteSquare,375,375,75,75);
+	 ctx.drawImage(whiteSquare,525,375,75,75);	
+	 ctx.drawImage(whiteSquare,150,450,75,75);
+	 ctx.drawImage(whiteSquare,300,450,75,75);
+	 ctx.drawImage(whiteSquare,450,450,75,75);
+	 ctx.drawImage(whiteSquare,600,450,75,75);	 
+	 ctx.drawImage(whiteSquare,75,525,75,75);
+	 ctx.drawImage(whiteSquare,225,525,75,75);
+	 ctx.drawImage(whiteSquare,375,525,75,75);
+	 ctx.drawImage(whiteSquare,525,525,75,75);	
+    };
+	
 }
 function drawHTMLChessboardOutlineVertical () {
 	var HTMLchessboard = document.getElementById("chessboard");
 	var ctx = HTMLchessboard.getContext("2d");
+	ctx.lineWidth = 4;
 	
 	ctx.moveTo(0,0);
 	ctx.lineTo(0,675);
@@ -129,10 +167,12 @@ function drawHTMLChessboardOutlineVertical () {
 	ctx.moveTo(675,0);
 	ctx.lineTo(675,675);
 	ctx.stroke();
+
 }
 function drawHTMLChessboardOutlineHorizontal () {
 	var HTMLchessboard = document.getElementById("chessboard");
 	var ctx = HTMLchessboard.getContext("2d");
+	ctx.lineWidth = 4;	
 	
 	ctx.moveTo(0,0);
 	ctx.lineTo(0,0);
@@ -173,11 +213,13 @@ function drawHTMLChessboardOutlineHorizontal () {
 	ctx.moveTo(0,675);
 	ctx.lineTo(675,675);
 	ctx.stroke();
-}
+	
+};
 function drawHTMLChessboardLabels () {
 	var c = document.getElementById("chessboard");
 	var ctx = c.getContext("2d");
 	ctx.font = "50px Arial";
+	ctx.lineWidth = 1;
 	
 	ctx.strokeText("8",25,50);
 	ctx.strokeText("7",25,130);
@@ -197,15 +239,25 @@ function drawHTMLChessboardLabels () {
 	ctx.strokeText("g",550,655);
 	ctx.strokeText("h",625,655);
 
+	
 }
+function drawBlueDot (x,y) { //Only called through mouseStop()
+	var c = document.getElementById("chessboard");
+	var ctx = c.getContext("2d");
+    var blue_dot = new Image();
+    blue_dot.src = "blue_dot.png";
+    blue_dot.onload = function() {
+     ctx.drawImage(blue_dot,x,y,75,75);
+	};
+};
 
 //This function calls upon the four previous functions and only needs to be run once in the beginning of the script execution.
 //Leave time for all elements to load before calling "placePiece"
 function drawChessboardOutline () {
 	drawHTMLChessboardSquares ();
-	drawHTMLChessboardOutlineVertical();
-	drawHTMLChessboardOutlineHorizontal();
-	drawHTMLChessboardLabels();
+	setTimeout(drawHTMLChessboardOutlineVertical(), 5000);
+	setTimeout(drawHTMLChessboardOutlineHorizontal(), 5000);
+	setTimeout(drawHTMLChessboardLabels(), 5000);
 };
 };
 			
@@ -415,6 +467,7 @@ function drawChessboard () {
 
 //Mouse Coords <--> Chessboard Array Coords <--> Chess Piece Variable FUNCTIONS:
 {
+
 //This function returns the peice on the chessboard.
 //Input: Mouse Coords in the Array [x,y] 
 //Output: Chess Piece Variable
@@ -461,6 +514,7 @@ function mouseToArray (mouseCoords) {
 	} else {
 		return chessBoard1[column]; 
 	};
+	
 };
 
 //This function returns the coords as an array [x,y] on the chessbord, but y-axis labeling is flipped from the labels on the drawn board. 
@@ -650,6 +704,31 @@ function blackPawnCheck (origin, destination) {
 };
 };
 
+//Special Gamerules Functions:
+//These are to be tested for before normal movement checks in "gameLoop".
+//Includes "whiteCastling", "blackCastling"
+{
+
+//This function tests whether white is trying to castle kingside and checks its requirements.
+//Input: none (uses "nextTurnOrigin" and "nextTurnDestination")
+//Output: Boolean
+//Relies On: "mouseToCoords", "mouseToArray"
+
+var whiteCastleYet = false; 
+var blackCastleYet = false;
+
+function whiteKingsideCastling() {
+	if (mouseToArray(nextTurnOrigin) == KI && (mouseToCoords(nextTurnDestination))[0] == 7 
+	&& (mouseToCoords(nextTurnDestination))[1] == 8 && chessBoard8[7] == RO && chessBoard8[6] == empty && chessBoard8[5] == empty) {
+		console.log ("White king has kingside castled.");
+		return true;
+	} else {
+		return false;
+	};
+};
+
+};
+
 //This function finds the correct piece check function and runs it.
 //Input: Chess Piece Variable
 //Output: Boolean based on the Piece Check Functions 
@@ -788,7 +867,7 @@ function movePiece (origin, destination) {
 //Drawing the outline of the HTML chessboard on the canvas, 'HTMLchessboard'
 drawChessboardOutline();
 //Waiting three seconds until after the board outline is drawn the placing the starting pieces on it.
-setTimeout(drawChessboard(), 3000);
+setTimeout(drawChessboard(), 5000);
  
  
 //Gameflow Variables and Loops:
@@ -801,16 +880,24 @@ function gameLoop () {
 	if ((mouseToArray(nextTurnDestination)) == KI && moveCheck(mouseToArray(nextTurnOrigin)) == true) {
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));	
 		alert ("Black has won!");		
-		drawChessboard();
+		drawChessboardOutline();
+		setTimeout(drawChessboard(), 5000);
 	} else if ((mouseToArray(nextTurnDestination)) == ki && moveCheck(mouseToArray(nextTurnOrigin)) == true) {
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));	
 		alert ("White has won!");		
-		drawChessboard();
+		drawChessboardOutline();
+		setTimeout(drawChessboard(), 5000);
+	} else if (whiteKingsideCastling == true) {
+		whiteCastleYet = true;
+		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));	
+		setTimeout(drawChessboard(), 5000);
+		drawChessboardOutline();
 	} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true && samePlace() == true) {
 		originBeforeMovement = mouseToArray(nextTurnOrigin); //Only used for console.log
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 		playerTurn = playerTurn * (-1);
-		drawChessboard();
+		drawChessboardOutline();
+		setTimeout(drawChessboard(), 5000);
 		console.log(originBeforeMovement + " moved to " + mouseToCoords(nextTurnDestination));
 		console.log(chessBoard1);
 		console.log(chessBoard2);
@@ -821,6 +908,8 @@ function gameLoop () {
 		console.log(chessBoard7);
 		console.log(chessBoard8);
 	} else {
+		drawChessboardOutline();
+		setTimeout(drawChessboard(), 5000);
 		alert ("That is not a valid move. Please try again.");
 	};
 };	
