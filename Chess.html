@@ -47,129 +47,15 @@ function mouseStop (){
 
 //Chessboard Outline Drawing Functions:
 {
-function drawHTMLChessboardSquares () {
+function drawChessboardOutline () {
 	var c = document.getElementById("chessboard");
 	var ctx = c.getContext("2d");
-    var blackSquare = new Image();
-    blackSquare.src = "black_square.png";
-    blackSquare.onload = function() {
-     ctx.drawImage(blackSquare,150,0,75,75);
-	 ctx.drawImage(blackSquare,300,0,75,75);
-	 ctx.drawImage(blackSquare,450,0,75,75);
-	 ctx.drawImage(blackSquare,600,0,75,75);
-	 ctx.drawImage(blackSquare,75,75,75,75);
-	 ctx.drawImage(blackSquare,225,75,75,75);
-	 ctx.drawImage(blackSquare,375,75,75,75);
-	 ctx.drawImage(blackSquare,525,75,75,75);
-	 ctx.drawImage(blackSquare,150,150,75,75);
-	 ctx.drawImage(blackSquare,300,150,75,75);
-	 ctx.drawImage(blackSquare,450,150,75,75);
-	 ctx.drawImage(blackSquare,600,150,75,75);
-	 ctx.drawImage(blackSquare,75,225,75,75);
-	 ctx.drawImage(blackSquare,225,225,75,75);
-	 ctx.drawImage(blackSquare,375,225,75,75);
-	 ctx.drawImage(blackSquare,525,225,75,75);
-	 ctx.drawImage(blackSquare,150,300,75,75);
-	 ctx.drawImage(blackSquare,300,300,75,75);
-	 ctx.drawImage(blackSquare,450,300,75,75);
-	 ctx.drawImage(blackSquare,600,300,75,75);
-	 ctx.drawImage(blackSquare,75,375,75,75);
-	 ctx.drawImage(blackSquare,225,375,75,75);
-	 ctx.drawImage(blackSquare,375,375,75,75);
-	 ctx.drawImage(blackSquare,525,375,75,75);	 
-	 ctx.drawImage(blackSquare,150,450,75,75);
-	 ctx.drawImage(blackSquare,300,450,75,75);
-	 ctx.drawImage(blackSquare,450,450,75,75);
-	 ctx.drawImage(blackSquare,600,450,75,75);	
-	 ctx.drawImage(blackSquare,75,525,75,75);
-	 ctx.drawImage(blackSquare,225,525,75,75);
-	 ctx.drawImage(blackSquare,375,525,75,75);
-	 ctx.drawImage(blackSquare,525,525,75,75);		 
-    };
-
-	var c = document.getElementById("chessboard");
-	var ctx = c.getContext("2d");
-    var whiteSquare = new Image();
-    whiteSquare.src = "white_square.png";
-    whiteSquare.onload = function() {
-	 ctx.drawImage(whiteSquare,75,75,75,75);
-	 ctx.drawImage(whiteSquare,225,75,75,75);
-	 ctx.drawImage(whiteSquare,375,75,75,75);
-	 ctx.drawImage(whiteSquare,525,75,75,75);
-	 ctx.drawImage(whiteSquare,150,150,75,75);
-	 ctx.drawImage(whiteSquare,300,150,75,75);
-	 ctx.drawImage(whiteSquare,450,150,75,75);
-	 ctx.drawImage(whiteSquare,600,150,75,75);
-	 ctx.drawImage(whiteSquare,75,225,75,75);
-	 ctx.drawImage(whiteSquare,225,225,75,75);
-	 ctx.drawImage(whiteSquare,375,225,75,75);
-	 ctx.drawImage(whiteSquare,525,225,75,75);	
-	 ctx.drawImage(whiteSquare,150,300,75,75);
-	 ctx.drawImage(whiteSquare,300,300,75,75);
-	 ctx.drawImage(whiteSquare,450,300,75,75);
-	 ctx.drawImage(whiteSquare,600,300,75,75);
-	 ctx.drawImage(whiteSquare,75,375,75,75);
-	 ctx.drawImage(whiteSquare,225,375,75,75);
-	 ctx.drawImage(whiteSquare,375,375,75,75);
-	 ctx.drawImage(whiteSquare,525,375,75,75);	
-	 ctx.drawImage(whiteSquare,150,450,75,75);
-	 ctx.drawImage(whiteSquare,300,450,75,75);
-	 ctx.drawImage(whiteSquare,450,450,75,75);
-	 ctx.drawImage(whiteSquare,600,450,75,75);	 
-	 ctx.drawImage(whiteSquare,75,525,75,75);
-	 ctx.drawImage(whiteSquare,225,525,75,75);
-	 ctx.drawImage(whiteSquare,375,525,75,75);
-	 ctx.drawImage(whiteSquare,525,525,75,75);	
+    var background = new Image();
+    background.src = "background.png";
+    background.onload = function() {
+     ctx.drawImage(background,0,0,675,675);
     };
 	
-}
-function drawHTMLChessboardOutlineVertical () {
-	var HTMLchessboard = document.getElementById("chessboard");
-	var ctx = HTMLchessboard.getContext("2d");
-	ctx.lineWidth = 4;
-	
-	ctx.moveTo(0,0);
-	ctx.lineTo(0,675);
-	ctx.stroke();
-	
-	ctx.moveTo(75,0);
-	ctx.lineTo(75,675);
-	ctx.stroke();
-	
-	ctx.moveTo(150,0);
-	ctx.lineTo(150,675);
-	ctx.stroke();
-	
-	ctx.moveTo(225,0);
-	ctx.lineTo(225,675);
-	ctx.stroke();
-	
-	ctx.moveTo(300,0);
-	ctx.lineTo(300,675);
-	ctx.stroke();
-	
-	ctx.moveTo(375,0);
-	ctx.lineTo(375,675);
-	ctx.stroke();
-	
-	ctx.moveTo(450,0);
-	ctx.lineTo(450,675);
-	ctx.stroke();
-	
-	ctx.moveTo(525,0);
-	ctx.lineTo(525,675);
-	ctx.stroke();
-	
-	ctx.moveTo(600,0);
-	ctx.lineTo(600,675);
-	ctx.stroke();
-	
-	ctx.moveTo(675,0);
-	ctx.lineTo(675,675);
-	ctx.stroke();
-
-}
-function drawHTMLChessboardOutlineHorizontal () {
 	var HTMLchessboard = document.getElementById("chessboard");
 	var ctx = HTMLchessboard.getContext("2d");
 	ctx.lineWidth = 4;	
@@ -215,32 +101,7 @@ function drawHTMLChessboardOutlineHorizontal () {
 	ctx.stroke();
 	
 };
-function drawHTMLChessboardLabels () {
-	var c = document.getElementById("chessboard");
-	var ctx = c.getContext("2d");
-	ctx.font = "50px Arial";
-	ctx.lineWidth = 1;
-	
-	ctx.strokeText("8",25,50);
-	ctx.strokeText("7",25,130);
-	ctx.strokeText("6",25,205);
-	ctx.strokeText("5",25,280);
-	ctx.strokeText("4",25,355);
-	ctx.strokeText("3",25,430);
-	ctx.strokeText("2",25,505);
-	ctx.strokeText("1",25,580);
-	
-	ctx.strokeText("a",100,655);
-	ctx.strokeText("b",175,655);
-	ctx.strokeText("c",250,655);
-	ctx.strokeText("d",325,655);
-	ctx.strokeText("e",400,655);
-	ctx.strokeText("f",475,655);
-	ctx.strokeText("g",550,655);
-	ctx.strokeText("h",625,655);
 
-	
-}
 function drawBlueDot (x,y) { //Only called through mouseStop()
 	var c = document.getElementById("chessboard");
 	var ctx = c.getContext("2d");
@@ -251,14 +112,6 @@ function drawBlueDot (x,y) { //Only called through mouseStop()
 	};
 };
 
-//This function calls upon the four previous functions and only needs to be run once in the beginning of the script execution.
-//Leave time for all elements to load before calling "placePiece"
-function drawChessboardOutline () {
-	drawHTMLChessboardSquares ();
-	setTimeout(drawHTMLChessboardOutlineVertical(), 5000);
-	setTimeout(drawHTMLChessboardOutlineHorizontal(), 5000);
-	setTimeout(drawHTMLChessboardLabels(), 5000);
-};
 };
 			
 //Chessboard Arrays and Chessboard Drawing / Piece Placing Function:
@@ -404,15 +257,6 @@ function placePiece (piece, x, y) {
 			blackPawn.src = "blackPawn.png";
 			blackPawn.onload = function() {
 				ctx.drawImage(blackPawn,x,y,75,75);
-			};
-			break;
-		case "***":
-			var c = document.getElementById("chessboard");
-			var ctx = c.getContext("2d");
-			var blackSquare = new Image();
-			blackSquare.src = "black_square.png";
-			blackSquare.onload = function() {
-				ctx.drawImage(blackSquare,x,y,75,75);
 			};
 			break;
 	};		
@@ -709,11 +553,6 @@ function blackPawnCheck (origin, destination) {
 //Includes "whiteCastling", "blackCastling"
 {
 
-//This function tests whether white is trying to castle kingside and checks its requirements.
-//Input: none (uses "nextTurnOrigin" and "nextTurnDestination")
-//Output: Boolean
-//Relies On: "mouseToCoords", "mouseToArray"
-
 var whiteCastleYet = false; 
 var blackCastleYet = false;
 
@@ -723,17 +562,40 @@ var blackCastleYet = false;
 //Relies On: "mouseToCoords", "mouseToArray", "nextTurnDestination", "nextTurnOrigin","movePiece", and the chessBoard arrays
 function whiteCastling() {
 	var destinationCoords = mouseToCoords(nextTurnDestination);
-	if (mouseToArray(nextTurnOrigin) == KI && destinationCoords[0] == 6 
+	if (mouseToArray(nextTurnOrigin) == KI && destinationCoords[0] == 7 
 	&& destinationCoords[1] == 8 && chessBoard8[7] == RO && chessBoard8[6] == empty && chessBoard8[5] == empty) {
-		movePiece([8,5],[8,7]);
-		movePiece([8,8],[8,6]);
-		console.log ("White king has kingside castled.");
+		movePiece(mouseToCoords(nextTurnOrigin),mouseToCoords(nextTurnDestination));
+		movePiece(['8','8'],['6','8']);
+		console.log ("White has kingside castled.");
 		return true;
-	} else if (mouseToArray(nextTurnOrigin) == KI && destinationCoords[0] == 3 
+	} else if (mouseToArray(nextTurnOrigin) == KI && destinationCoords[0] == 2
 	&& destinationCoords[1] == 8 && chessBoard8[0] == RO && chessBoard8[1] == empty && chessBoard8[2] == empty && chessBoard8[3] == empty) {
-		movePiece([8,5],[8,2]);
-		movePiece([8,0],[8,3]);
-		console.log ("White king has kingside castled.");
+		movePiece(mouseToCoords(nextTurnOrigin),mouseToCoords(nextTurnDestination));
+		movePiece(['1','8'],['3','8']);
+		console.log ("White has queenside castled.");
+		return true;
+	} else {
+		return false;
+	};
+};
+
+//This function checks if black is trying to castle queenside or kingside and checks the validity as well as moves the pieces.
+//Input: none (run through gameLoop())
+//Output: Boolean and calls on movePiece
+//Relies On: "mouseToCoords", "mouseToArray", "nextTurnDestination", "nextTurnOrigin","movePiece", and the chessBoard arrays
+function blackCastling() {
+	var destinationCoords = mouseToCoords(nextTurnDestination);
+	if (mouseToArray(nextTurnOrigin) == ki && destinationCoords[0] == 7 
+	&& destinationCoords[1] == 1 && chessBoard1[7] == ro && chessBoard1[6] == empty && chessBoard1[5] == empty) {
+		movePiece(mouseToCoords(nextTurnOrigin),mouseToCoords(nextTurnDestination));
+		movePiece(['8','1'],['6','1']);
+		console.log ("White has kingside castled.");
+		return true;
+	} else if (mouseToArray(nextTurnOrigin) == ki && destinationCoords[0] == 2
+	&& destinationCoords[1] == 1 && chessBoard1[0] == ro && chessBoard1[1] == empty && chessBoard1[2] == empty && chessBoard1[3] == empty) {
+		movePiece(mouseToCoords(nextTurnOrigin),mouseToCoords(nextTurnDestination));
+		movePiece(['1','1'],['3','1']);
+		console.log ("White has queenside castled.");
 		return true;
 	} else {
 		return false;
@@ -779,7 +641,6 @@ function samePlace() {
 		console.log (mouseToArray(nextTurnOrigin) + " is trying to eat itself.");
 		return false;	
 	} else {
-		console.log("samePlace has returned true.");
 		return true;
 	};
 };
@@ -818,7 +679,10 @@ function movePiece (origin, destination) {
 			chessBoard8[destinationColumn] = empty;
 			break;
 	};
-	drawChessboard(); //Chessboard must be drawn so the destination piece is overlaid with a white square.
+	
+	drawChessboardOutline();
+	drawChessboard();
+	
 	switch(destination[1]) { //puts the chess piece in the destination 
 		case "1":
 			chessBoard1[destinationColumn] = originPiece;
@@ -917,22 +781,36 @@ function gameLoop () {
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));	
 		alert ("Black has won!");		
 		drawChessboardOutline();
-		setTimeout(drawChessboard(), 5000);
+		drawChessboard();
+		
 	} else if ((mouseToArray(nextTurnDestination)) == ki && moveCheck(mouseToArray(nextTurnOrigin)) == true && gameFlow() == true) {
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));	
 		alert ("White has won!");		
 		drawChessboardOutline();
-		setTimeout(drawChessboard(), 5000);
-	} else if (whiteCastling == true && whiteCastleYet == false) { //White Castling Check
+		drawChessboard();
+		
+	} else if (mouseToArray(nextTurnOrigin) == empty) {
+		alert ("There is no piece there.");
+		drawChessboardOutline();
+		drawChessboard();
+		
+	} else if (whiteCastling() == true && whiteCastleYet == false) { 
 		whiteCastleYet = true;
-		drawChessboardOutline();		
-		setTimeout(drawChessboard(), 5000);
+		drawChessboardOutline();
+		drawChessboard();
+		
+	} else if (blackCastling() == true && blackCastleYet == false) { 
+		blackCastleYet = true;
+		drawChessboardOutline();
+		drawChessboard();
+		
 	} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true && samePlace() == true && gameFlow() == true) {
 		originBeforeMovement = mouseToArray(nextTurnOrigin); //Only used for console.log
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 		playerTurn = playerTurn * (-1);
 		drawChessboardOutline();
-		setTimeout(drawChessboard(), 5000);
+		drawChessboard();
+		
 		//For console log.
 		console.log(originBeforeMovement + " moved to " + mouseToCoords(nextTurnDestination));
 		console.log(chessBoard1);
@@ -944,14 +822,16 @@ function gameLoop () {
 		console.log(chessBoard7);
 		console.log(chessBoard8);
 		//For console log.
+		
 	} else if (gameFlow() == false) {
 		alert ("It is either not your turn or you are trying to eat your own pieces.");
 		drawChessboardOutline();
-		setTimeout(drawChessboard(), 5000);
+		drawChessboard();
+		
 	} else {
-		drawChessboardOutline();
-		setTimeout(drawChessboard(), 5000);
 		alert ("That is not a valid move. Please try again.");
+		drawChessboardOutline();
+		drawChessboard();
 	};
 };	
 };
