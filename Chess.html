@@ -575,7 +575,7 @@ function kingCheck (origin, destination){
 function queenCheck (origin, destination) {
 	if ((origin[0] == destination[0]) || (origin[1] == destination[1])) {
 		return true;
-	} else if ((origin[0] - destination[0]) == (origin[1] - destination[1])) {
+	} else if (Math.abs(origin[0] - destination[0]) == Math.abs(origin[1] - destination[1])) {
 		return true;
 	} else {
 		return false;
