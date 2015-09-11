@@ -566,6 +566,7 @@ function coordsToCanvas (coords) {
 {
 function kingCheck (origin, destination){
 	if ((Math.abs(origin[0] - destination[0]) <= 1) && (Math.abs(origin[1] - destination[1]) <= 1)) {
+		console.log("kingCheck has returned true.");
 		return true;
 	} else {
 		return false;
@@ -574,8 +575,10 @@ function kingCheck (origin, destination){
 
 function queenCheck (origin, destination) {
 	if ((origin[0] == destination[0]) || (origin[1] == destination[1])) {
+		console.log("queenCheck has returned true.");
 		return true;
 	} else if (Math.abs(origin[0] - destination[0]) == Math.abs(origin[1] - destination[1])) {
+		console.log("queenCheck has returned true.");
 		return true;
 	} else {
 		return false;
@@ -584,6 +587,7 @@ function queenCheck (origin, destination) {
 
 function rookCheck (origin, destination) {
 	if ((origin[0] == destination[0]) || (origin[1] == destination[1])) {
+		console.log("rookCheck has returned true.");
 		return true;
 	} else {
 		return false;
@@ -592,6 +596,7 @@ function rookCheck (origin, destination) {
 
 function bishopCheck (origin, destination) {
 	if (Math.abs(origin[0] - destination[0]) == Math.abs(origin[1] - destination[1])) {
+		console.log("bishopCheck has returned true.");
 		return true;
 	} else {
 		return false;
@@ -600,8 +605,10 @@ function bishopCheck (origin, destination) {
 
 function knightCheck (origin, destination) {
 	if ((Math.abs(origin[0] - destination[0]) == 2) && (Math.abs(origin[1] - destination[1]) == 1)) {
+		console.log("bishopCheck has returned true.");
 		return true;
 	} else if ((Math.abs(origin[1] - destination[1]) == 2) && (Math.abs(origin[0] - destination[0]) == 1)) {
+		console.log("bishopCheck has returned true.");
 		return true;
 	} else {
 		return false;
@@ -610,12 +617,15 @@ function knightCheck (origin, destination) {
 
 function whitePawnCheck (origin, destination) {
 	if ((Math.abs(destination[0] - origin[0]) == 1) && (coordsToArray(destination) != empty) && (origin[1] - destination[1] == 1)) {
+		console.log("whitePawnCheck has returned true.");
 		return true;
 	} else if (coordsToArray(destination) != empty) {
 		return false;
 	} else if ((origin[0] == destination[0]) && (origin[1] - destination[1] == 1)){
+		console.log("whitePawnCheck has returned true.");
 		return true;	
 	} else if ((origin[0] == destination[0]) && (origin[1] - destination[1] == 2) && (origin[1] == 7)) {
+		console.log("whitePawnCheck has returned true.");
 		return true;
 	} else {
 		return false;
@@ -624,12 +634,15 @@ function whitePawnCheck (origin, destination) {
 
 function blackPawnCheck (origin, destination) {
 	if ((Math.abs(destination[0] - origin[0]) == 1) && (coordsToArray(destination) != empty) && (destination[1] - origin[1] == 1)) {
+		console.log("blackPawnCheck has returned true.");
 		return true; 
 	} else if (coordsToArray(destination) != empty) {
 		return false;
 	} else if ((origin[0] == destination[0]) && (destination[1] - origin[1] == 1)){
+		console.log("blackPawnCheck has returned true.");
 		return true;
 	} else if ((origin[0] == destination[0]) && (destination[1] - origin[1] == 2) && (origin[1] == 2)) {
+		console.log("blackPawnCheck has returned true.");
 		return true;
 	} else {
 		return false;
@@ -660,6 +673,22 @@ function moveCheck (piece) {
 		return "There is no piece located there.";
 	} else {
 		return "Error: function checkDecider";
+	};
+};
+
+//This function tells gameLoop() whether or not peices are trying to move to the same place they started on.
+//Input: none (uses nextTurnOrigin and nextTurnDestination)
+//Output: Boolean
+//Relies On: "mouseToCoords", "mouseToArray", "nextTurnOrigin". "nextTurnDestination"
+function samePlace() {
+	var originCoords = mouseToCoords(nextTurnOrigin);
+	var destinationCoords = mouseToCoords(nextTurnDestination);
+	if ((originCoords[0] === destinationCoords[0]) && (originCoords[1] === destinationCoords[1])) {
+		console.log (mouseToArray(nextTurnOrigin) + " is trying to eat itself.");
+		return false;	
+	} else {
+		console.log("samePlace has returned true.");
+		return true;
 	};
 };
 
@@ -777,7 +806,7 @@ function gameLoop () {
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));	
 		alert ("White has won!");		
 		drawChessboard();
-	} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true) {
+	} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true && samePlace() == true) {
 		originBeforeMovement = mouseToArray(nextTurnOrigin); //Only used for console.log
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 		playerTurn = playerTurn * (-1);
