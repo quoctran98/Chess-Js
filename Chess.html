@@ -35,7 +35,7 @@ var mouseStopVar = 0;
 function mouseStop (){
 	if (mouseStopVar == 0) {
 		getMouseCoordsOrigin(event);
-		drawBlueDot(nextTurnOrigin[0] - 38, nextTurnOrigin[1] - 38);
+		drawBlueOutline(nextTurnOrigin[0], nextTurnOrigin[1]);
 		mouseStopVar = mouseStopVar + 1;
 	} else {
 		getMouseCoordsDestination(event);
@@ -43,6 +43,7 @@ function mouseStop (){
 		mouseStopVar = 0;
 	};
 };
+
 }; 
 
 //Chessboard Outline Drawing Functions:
@@ -102,13 +103,25 @@ function drawChessboardOutline () {
 	
 };
 
-function drawBlueDot (x,y) { //Only called through mouseStop()
+
+function drawBlueOutline (x,y) { 
+	var xNew = x;
+	var yNew = y;
+	
+	while (xNew % 75 != 0) {
+		xNew = xNew - 1;
+	};
+	
+	while (yNew % 75 != 0) {
+		yNew = yNew - 1;
+	};
+
 	var c = document.getElementById("chessboard");
 	var ctx = c.getContext("2d");
-    var blue_dot = new Image();
-    blue_dot.src = "blue_dot.png";
-    blue_dot.onload = function() {
-     ctx.drawImage(blue_dot,x,y,75,75);
+    var blue_outline = new Image();
+    blue_outline.src = "blue_outline.png";
+    blue_outline.onload = function() {
+     ctx.drawImage(blue_outline,xNew,yNew,75,75);
 	};
 };
 
