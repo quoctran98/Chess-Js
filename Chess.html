@@ -35,7 +35,9 @@ var mouseStopVar = 0;
 function mouseStop (){
 	if (mouseStopVar == 0) {
 		getMouseCoordsOrigin(event);
-		if (turnChoose() == true) {
+		if (mouseToArray(nextTurnOrigin) == empty) {
+			alert ("There is no piece there.")
+		} else if (turnChoose() == true) {
 			drawBlueOutline(nextTurnOrigin[0], nextTurnOrigin[1]);
 			mouseStopVar = mouseStopVar + 1;
 		} else {
@@ -840,12 +842,7 @@ function gameLoop () {
 		console.log(chessBoard7);
 		console.log(chessBoard8);
 		//For console log.
-		
-	} else if (turnChoose() == false) {
-		alert ("It is not your turn.");
-		drawChessboardOutline();
-		drawChessboard();		
-		
+
 	} else if (eatPiece() == false) {
 		alert ("You cannot eat your own pieces.");
 		drawChessboardOutline();
