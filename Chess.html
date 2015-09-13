@@ -736,6 +736,26 @@ function movePiece (origin, destination) {
 	};
 };
  
+//Gives the value of a chess piece based on this: http://chess.stackexchange.com/questions/2409/how-many-points-is-each-chess-piece-worth
+//Input: Chessboard Piece Array Variable
+//Output: Integer
+function chessPieceValue (array) {
+	if (array == KI || array == ki) {
+		return 100;
+	} else if (array == QU || array == qu) {
+		return 9;
+	} else if (array == RO || array == ro) {
+		return 5;
+	} else if (array == BI || array == bi) {
+		return 3;
+	} else if (array == KN || array == kn) {
+		return 3;
+	} else if (array == PA || array == pa) {
+		return 1;
+	} else {
+		return 0;
+	};
+};
  
 //START CALLING FUNCTIONS AND DOING GAMEFLOW STUFF 
 
@@ -755,10 +775,29 @@ function getRandomIntInclusive(min, max) {
 };
 
 //Chess AI
-//It pulls random numbers and runs them through moveCheck and the first viable one is selected as a movement.
+//It pulls random numbers and runs them through moveCheck and the best of the first five viable ones is selected as a movement.
 function chessAI () {
+
 	var chessAI = 0;
 	var chessAICounter = 1;
+	var chessAIDone = false;
+	
+	var nextTurnOriginTemp1 = ['x', 'y'];
+	var nextTurnDestinationTemp1 = ['x', 'y'];
+	var tempCoordsInfo1 = 0;
+	var nextTurnOriginTemp2 = ['x', 'y'];
+	var nextTurnDestinationTemp2 = ['x', 'y'];
+	var tempCoordsInfo2 = 0;		
+	var nextTurnOriginTemp3 = ['x', 'y'];
+	var nextTurnDestinationTemp3 =['x', 'y'];
+	var tempCoordsInfo3 = 0;		
+	var nextTurnOriginTemp4 = ['x', 'y'];		
+	var nextTurnDestinationTemp4 = ['x', 'y'];
+	var tempCoordsInfo4 = 0;		
+	var nextTurnOriginTemp5 = ['x', 'y'];		
+	var nextTurnDestinationTemp5 = ['x', 'y'];
+	var tempCoordsInfo5 = 0;
+	
 	while (playerTurn == -1 && chessAI == 0) {
 		
 		nextTurnOrigin = [getRandomIntInclusive(75, 675), getRandomIntInclusive(0, 600)];
@@ -766,7 +805,53 @@ function chessAI () {
 		
 		if (moveCheck(mouseToArray(nextTurnOrigin)) == true && mouseToArray(nextTurnDestination) == KI) {
 			alert ("Black has won. You've been beaten by an AI that plays by choosing random numbers. Way to go.");
-		} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true) {
+		} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true && chessAIDone == false) {
+			if (tempCoordsInfo1 == 0) {
+				nextTurnOriginTemp1	= nextTurnOrigin;
+				nextTurnDestinationTemp1 = nextTurnDestination;
+				tempCoordsInfo1 = chessPieceValue(mouseToArray(nextTurnDestination));
+			} else if (tempCoordsInfo2 == 0) {
+				nextTurnOriginTemp2	= nextTurnOrigin;
+				nextTurnDestinationTemp2 = nextTurnDestination;
+				tempCoordsInfo2 = chessPieceValue(mouseToArray(nextTurnDestination));			
+			} else if (tempCoordsInfo3 == 0) {
+				nextTurnOriginTemp3 = nextTurnOrigin;
+				nextTurnDestinationTemp3 = nextTurnDestination;
+				tempCoordsInfo3 = chessPieceValue(mouseToArray(nextTurnDestination));			
+			} else if (tempCoordsInfo4 == 0) {
+				nextTurnOriginTemp4	= nextTurnOrigin;
+				nextTurnDestinationTemp4 = nextTurnDestination;
+				tempCoordsInfo4 = chessPieceValue(mouseToArray(nextTurnDestination));			
+			} else if (tempCoordsInfo5 == 0) {
+				nextTurnOriginTemp5	= nextTurnOrigin;
+				nextTurnDestinationTemp5 = nextTurnDestination;
+				tempCoordsInfo5 = chessPieceValue(mouseToArray(nextTurnDestination));			
+			} else {
+				chessAIDone = true;
+			};
+		} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true && chessAIDone == true) {
+			
+			var chessAITempArray = [tempCoordsInfo1, tempCoordsInfo2, tempCoordsInfo3, tempCoordsInfo4, tempCoordsInfo5];
+			
+			var largestChessAI = Math.max.apply(Math, chessAITempArray);
+			
+			if (largestChessAI == tempCoordsInfo1) {
+				nextTurnOrigin = nextTurnOriginTemp1;
+				nextTurnDestination = nextTurnDestinationTemp1;
+			} else if (largestChessAI == tempCoordsInfo2) {
+				nextTurnOrigin = nextTurnOriginTemp2;
+				nextTurnDestination = nextTurnDestinationTemp2;
+			} else if (largestChessAI == tempCoordsInfo3) {
+				nextTurnOrigin = nextTurnOriginTemp3;
+				nextTurnDestination = nextTurnDestinationTemp3;
+			} else if (largestChessAI == tempCoordsInfo4) {
+				nextTurnOrigin = nextTurnOriginTemp4;
+				nextTurnDestination = nextTurnDestinationTemp4;
+			} else {
+				nextTurnOrigin = nextTurnOriginTemp5;
+				nextTurnDestination = nextTurnDestinationTemp5;
+			};
+		
 			chessAI = 1;
 			console.log("chessAI has found a valid move on iteration " + chessAICounter);
 			playerTurn = 1;
@@ -774,19 +859,7 @@ function chessAI () {
 			movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 			drawChessboardOutline();
 			drawChessboard();
-			
-			//For console log.
-			console.log(originBeforeMovement + " moved to " + mouseToCoords(nextTurnDestination));
-//			console.log(chessBoard1);
-//			console.log(chessBoard2);
-//			console.log(chessBoard3);
-//			console.log(chessBoard4);
-//			console.log(chessBoard5);
-//			console.log(chessBoard6);
-//			console.log(chessBoard7);
-//			console.log(chessBoard8);
-			//For console log.			
-			
+			console.log(originBeforeMovement + " moved to " + mouseToCoords(nextTurnDestination));		
 			break;
 		
 		} else {
