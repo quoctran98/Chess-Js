@@ -5,7 +5,7 @@
 
 <script type="text/javascript">
 
-//WIP Features: Player turn rules (eating your own peices, moving other player's peices, etc.), Collision detection bewtween pieces, Pawns changing into other pieces, Special rules (castling, en passant, etc.)
+//WIP Features: Collision detection bewtween pieces, Pawns changing into other pieces, en passant
 
 //Functions and varibles for clicking on the chessboard.
 {
@@ -614,7 +614,7 @@ function moveCheck (piece) {
 function samePlace() {
 	var originCoords = mouseToCoords(nextTurnOrigin);
 	var destinationCoords = mouseToCoords(nextTurnDestination);
-	if ((originCoords[0] === destinationCoords[0]) && (originCoords[1] === destinationCoords[1])) {
+	if ((originCoords[0] == destinationCoords[0]) && (originCoords[1] == destinationCoords[1])) {
 		console.log (mouseToArray(nextTurnOrigin) + " is trying to eat itself.");
 		return false;	
 	} else {
@@ -762,6 +762,34 @@ setTimeout(drawChessboard(), 5000);
 
 var playerTurn = 1;
 
+function getRandomIntInclusive(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+//Chess AI
+function chessAI () {
+	var chessAI = 0;
+	var chessAICounter = 0;
+	while (playerTurn == -1 && chessAI == 0) {
+		
+		nextTurnOrigin = [getRandomIntInclusive(75, 675), getRandomIntInclusive(0, 600)];
+		nextTurnDestination = [getRandomIntInclusive(75, 675), getRandomIntInclusive(0, 600)];
+		
+		if (moveCheck(mouseToArray(nextTurnOrigin)) == true) {
+			chessAI = 1;
+			console.log("chessAI() has found a valid move on its " + (chessAICounter + 1) + " iteration.");
+			playerTurn = 1;
+			movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
+			drawChessboardOutline();
+			drawChessboard();
+			break;
+		} else {
+			chessAICounter = chessAICounter + 1;
+		};
+	
+	};
+};
+
 //This function is called when mouseStop is called for the second time and moves pieces.
 function gameLoop () {
 	if ((mouseToArray(nextTurnDestination)) == KI && moveCheck(mouseToArray(nextTurnOrigin)) == true) {
@@ -796,7 +824,6 @@ function gameLoop () {
 	} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true) {
 		originBeforeMovement = mouseToArray(nextTurnOrigin); //Only used for console.log
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
-		playerTurn = playerTurn * (-1);
 		drawChessboardOutline();
 		drawChessboard();
 		
@@ -811,6 +838,11 @@ function gameLoop () {
 		console.log(chessBoard7);
 		console.log(chessBoard8);
 		//For console log.
+
+		if (playerTurn == 1) {
+			playerTurn = -1;
+			setTimeout(chessAI(), 500);
+		};
 		
 	} else {
 		alert ("That is not a valid move.");
