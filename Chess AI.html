@@ -813,15 +813,23 @@ function gameLoop () {
 		
 	} else if (whiteCastling() == true && whiteCastleYet == false) { 
 		whiteCastleYet = true;
-		playerTurn = playerTurn * (-1);
 		drawChessboardOutline();
 		drawChessboard();
 				
+		if (playerTurn == 1) {
+			playerTurn = -1;
+			setTimeout(chessAI(), 500);
+		};				
+				
 	} else if (blackCastling() == true && blackCastleYet == false) { 
 		blackCastleYet = true;
-		playerTurn = playerTurn * (-1);
 		drawChessboardOutline();
 		drawChessboard();
+
+		if (playerTurn == 1) {
+			playerTurn = -1;
+			setTimeout(chessAI(), 500);
+		};		
 		
 	} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true) {
 		originBeforeMovement = mouseToArray(nextTurnOrigin); //Only used for console.log
