@@ -42,15 +42,16 @@ var inGame = true;
 //This function calls gameLoop after two clicks are registered and the coords have been recorded, then it resets mouseStopVar.
 //If the mouse is not clicked within the chessboard, menuClicks is called.
 function mouseStop (){
+	clearWarningBox();
 	if (mouseStopVar == 0 && getMouseCoords(event)[0] < 675 && inGame == true) {
 		getMouseCoordsOrigin(event);
 		if (mouseToArray(nextTurnOrigin) == empty) {
-			alert ("There is no piece there.")
+			drawNoPiece();
 		} else if (turnChoose() == true) {
 			drawBlueOutline(nextTurnOrigin[0], nextTurnOrigin[1]);
 			mouseStopVar = mouseStopVar + 1;
 		} else {
-			alert ("You cannot move that piece.");
+			drawWrongPiece();
 		};
 	} else if (getMouseCoords(event)[0] < 675 && inGame == true){
 		getMouseCoordsDestination(event);
@@ -130,6 +131,46 @@ function drawBlueOutline (x,y) {
     blue_outline.onload = function() {
      ctx.drawImage(blue_outline,xNew,yNew,75,75);
 	};
+};
+
+function drawInvalidMove () {
+	var c = document.getElementById("chessboard");
+	var ctx = c.getContext("2d");
+    var invalidMove = new Image();
+    invalidMove.src = "invalidMove.png";
+    invalidMove.onload = function() {
+     ctx.drawImage(invalidMove,675,270,300,100);
+    };
+};
+
+function drawWrongPiece () {
+	var c = document.getElementById("chessboard");
+	var ctx = c.getContext("2d");
+    var wrongPiece = new Image();
+    wrongPiece.src = "wrongPiece.png";
+    wrongPiece.onload = function() {
+     ctx.drawImage(wrongPiece,675,270,300,100);
+    };
+};
+
+function drawNoPiece () {
+	var c = document.getElementById("chessboard");
+	var ctx = c.getContext("2d");
+    var noPiece = new Image();
+    noPiece.src = "noPiece.png";
+    noPiece.onload = function() {
+     ctx.drawImage(noPiece,675,270,300,100);
+    };
+};
+
+function clearWarningBox () {
+	var c = document.getElementById("chessboard");
+	var ctx = c.getContext("2d");
+    var clearWarningBox = new Image();
+    clearWarningBox.src = "clearWarningBox.png";
+    clearWarningBox.onload = function() {
+     ctx.drawImage(clearWarningBox,675,270,300,100);
+    };
 };
 
 };
@@ -934,7 +975,7 @@ function chessPieceValue (array) {
 };
 
 function distanceFormula (array1, array2) {
-	return (-1 * (Math.sqrt(((array2[0] - array1[0]) * (array2[0] - array1[0])) + ((array2[1] - array1[1]) * (array2[1] - array1[1]))) / 10));
+	return (-1 * (Math.sqrt(((array2[0] - array1[0]) * (array2[0] - array1[0])) + ((array2[1] - array1[1]) * (array2[1] - array1[1])))));
 };
 
 //START CALLING FUNCTIONS AND DOING GAMEFLOW STUFF 
@@ -1030,7 +1071,6 @@ function chessAI () {
 				} else {
 					tempCoordsInfo5 = chessPieceValue(mouseToArray(nextTurnDestination));		
 				};
-				alert (tempCoordsInfo5);
 			} else {
 				chessAIDone = true;
 			};
@@ -1088,8 +1128,13 @@ function gameLoop () {
 		drawChessboardOutline();
 		drawChessboard();
 		
+	} else if (moveCheck(mouseToArray(nextTurnOrigin)) == false) {
+		drawChessboardOutline();
+		drawChessboard();		
+		drawInvalidMove();
+		
 	} else if (mouseToArray(nextTurnOrigin) == empty) {
-		alert ("There is no piece there.");
+		drawNoPiece();
 		drawChessboardOutline();
 		drawChessboard();
 		
@@ -1147,11 +1192,8 @@ function gameLoop () {
 			} else {
 				blackTurn();
 			};
-		
 	} else {
-		alert ("That is not a valid move.");
-		drawChessboardOutline();
-		drawChessboard();
+		console.log ("else on gameLoop has been passed");
 	};
 };	
 };
