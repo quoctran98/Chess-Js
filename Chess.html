@@ -1,15 +1,125 @@
 <html>
 <body>
-<canvas id="chessboard" onclick = "mouseStop()" width="975" height="675" style="border:3px solid #d3d3d3;" >
+<canvas id="chessboard" onclick = "mouseStop()" onmousemove = "mouseMove()" width="975" height="675" style="border:3px solid #d3d3d3;" >
 </canvas>
 
 <script type="text/javascript">
 
 //WIP Features: Collision detection bewtween pieces, Pawns changing into other pieces, en passant
 
-var aiOption = confirm("Do you want to play with AI?");
+//Functions and variables for menu screen. Also includes all buttons that change colors when moused over.
+{
+var aiOption = false;
 
-//Functions and varibles for clicking on the chessboard.
+var inGame = false;
+
+function mouseMove() {
+	if (getMouseCoords(event)[0] > 250 && getMouseCoords(event)[0] < 727 
+	&& getMouseCoords(event)[1] > 407 && getMouseCoords(event)[1] < 555 && inGame == false) {
+		drawMenuPerson();
+	} else if (getMouseCoords(event)[0] > 250 && getMouseCoords(event)[0] < 727 
+	&& getMouseCoords(event)[1] > 116 && getMouseCoords(event)[1] < 262 && inGame == false) {
+		drawMenuAI();
+	} else if (getMouseCoords(event)[0] > 710 && getMouseCoords(event)[0] < 940 
+	&& getMouseCoords(event)[1] > 550 && getMouseCoords(event)[1] < 645 && inGame == true) {
+		drawMenuButtonOn();
+	} else if (inGame == true) {
+		drawMenuButtonOff();
+	} else if (inGame == false) {
+		drawMenuAIOff();
+		drawMenuPersonOff();
+	};
+}
+
+function drawMenuButtonOn () {
+	var c = document.getElementById("chessboard");
+	var ctx = c.getContext("2d");
+	var menuButtonOn = new Image();
+	menuButtonOn.src = "menuButtonOn.png";
+	menuButtonOn.onload = function() {
+	ctx.drawImage(menuButtonOn,710,550,230,91);
+	};
+};
+
+function drawMenuButtonOff () {
+	var c = document.getElementById("chessboard");
+	var ctx = c.getContext("2d");
+	var menuButtonOff = new Image();
+	menuButtonOff.src = "menuButtonOff.png";
+	menuButtonOff.onload = function() {
+	ctx.drawImage(menuButtonOff,710,550,230,91);
+	};
+};
+
+function drawMenuScreen () {
+	var c = document.getElementById("chessboard");
+	var ctx = c.getContext("2d");
+	var menu = new Image();
+	menu.src = "menu.png";
+	menu.onload = function() {
+	ctx.drawImage(menu,0,0,975,675);
+	};
+};
+
+function drawMenuAI () {
+	var c = document.getElementById("chessboard");
+	var ctx = c.getContext("2d");
+	var menuPlayAI = new Image();
+	menuPlayAI.src = "menuPlayAI.png";
+	menuPlayAI.onload = function() {
+	ctx.drawImage(menuPlayAI,254,117,473,145);
+	};
+};
+
+function drawMenuAIOff () {
+	var c = document.getElementById("chessboard");
+	var ctx = c.getContext("2d");
+	var menuPlayAIOff = new Image();
+	menuPlayAIOff.src = "menuPlayAIOff.png";
+	menuPlayAIOff.onload = function() {
+	ctx.drawImage(menuPlayAIOff,254,117,473,145);
+	};
+};
+
+function drawMenuPersonOff () {
+	var c = document.getElementById("chessboard");
+	var ctx = c.getContext("2d");
+	var menuPlayPersonOff = new Image();
+	menuPlayPersonOff.src = "menuPlayPersonOff.png";
+	menuPlayPersonOff.onload = function() {
+	ctx.drawImage(menuPlayPersonOff,253,408,473,145);
+	};
+};
+
+function drawMenuPerson () {
+	var c = document.getElementById("chessboard");
+	var ctx = c.getContext("2d");
+	var menuPlayPerson = new Image();
+	menuPlayPerson.src = "menuPlayPerson.png";
+	menuPlayPerson.onload = function() {
+	ctx.drawImage(menuPlayPerson,253,408,473,145);
+	};
+};
+
+function drawChessplayer () {
+	var c = document.getElementById("chessboard");
+	var ctx = c.getContext("2d");
+	var chessplayer = new Image();
+	var randomInt = (Math.floor(Math.random() * (10)) + 1);
+	chessplayer.src = "chessBackground9.png";
+	chessplayer.onload = function() {
+	ctx.drawImage(chessplayer,0,0,975,675);
+	};
+}
+
+drawChessplayer();
+drawMenuScreen();
+drawMenuAIOff();
+drawMenuPersonOff();
+
+};
+
+//Functions and varibles for clicking on the screen.
 {
 //Every time the canvas is pressed, the x and y coordinates of the mouse are logged in nextTurnOrigin the first time and nextTurnDestination.
 //At the beginning of the next turn, mouseStopVar should be reset to 0.
@@ -37,12 +147,12 @@ function getMouseCoordsDestination(event) {
 
 var mouseStopVar = 0; 
 
-var inGame = true;
-
 //This function calls gameLoop after two clicks are registered and the coords have been recorded, then it resets mouseStopVar.
 //If the mouse is not clicked within the chessboard, menuClicks is called.
-function mouseStop (){
-	clearWarningBox();
+function mouseStop () {
+	if (getMouseCoords(event)[0] < 675 && inGame == true) {
+		clearWarningBox();
+	};
 	if (mouseStopVar == 0 && getMouseCoords(event)[0] < 675 && inGame == true) {
 		getMouseCoordsOrigin(event);
 		if (mouseToArray(nextTurnOrigin) == empty) {
@@ -57,15 +167,27 @@ function mouseStop (){
 		getMouseCoordsDestination(event);
 		gameLoop();
 		mouseStopVar = 0;
-	} else {
-		menuClicks();
-	};
-};
-
-function menuClicks () {
-	if (getMouseCoords(event)[0] > 706 && getMouseCoords(event)[0] < 939 
-	&& getMouseCoords(event)[1] > 367 && getMouseCoords(event)[1] < 445) {
-		moveUndo();
+	} else if (getMouseCoords(event)[0] > 710 && getMouseCoords(event)[0] < 940 
+	&& getMouseCoords(event)[1] > 550 && getMouseCoords(event)[1] < 645 && inGame == true) {
+		inGame = false;
+		chessboardReset();
+		drawMenuScreen();
+	} else if (inGame == false) {
+		if (getMouseCoords(event)[0] > 253 && getMouseCoords(event)[0] < 727 
+		&& getMouseCoords(event)[1] > 116 && getMouseCoords(event)[1] < 262 && inGame == false) {
+			aiOption = true;
+			inGame = true;
+			drawChessboardOutline();
+			drawChessboard();
+			whiteTurn();
+		} else if (getMouseCoords(event)[0] > 250 && getMouseCoords(event)[0] < 727 
+		&& getMouseCoords(event)[1] > 407 && getMouseCoords(event)[1] < 555 && inGame == false) {
+			aiOption = false;
+			inGame = true;
+			drawChessboardOutline();
+			drawChessboard();
+			whiteTurn();
+		};
 	};
 };
 
@@ -110,6 +232,7 @@ function drawChessboardOutline () {
 	} else if (playerTurn == -1) {
 		blackTurn();
 	};
+	
 };
 
 function drawBlueOutline (x,y) { 
@@ -130,7 +253,8 @@ function drawBlueOutline (x,y) {
     blue_outline.src = "blue_outline.png";
     blue_outline.onload = function() {
      ctx.drawImage(blue_outline,xNew,yNew,75,75);
-	};
+	};	
+	
 };
 
 function drawInvalidMove () {
@@ -205,24 +329,6 @@ var chessBoard5 = [empty,empty,empty,empty,empty,empty,empty,empty];
 var chessBoard6 = [empty,empty,empty,empty,empty,empty,empty,empty];
 var chessBoard7 = [PA,PA,PA,PA,PA,PA,PA,PA];	
 var chessBoard8 = [RO,KN,BI,QU,KI,BI,KN,RO];
-
-var chessBoard1Undo = chessBoard1;
-var chessBoard2Undo = chessBoard2;
-var chessBoard3Undo = chessBoard3;
-var chessBoard4Undo = chessBoard4;
-var chessBoard5Undo = chessBoard5;
-var chessBoard6Undo = chessBoard6;
-var chessBoard7Undo = chessBoard7;
-var chessBoard8Undo = chessBoard8;
-
-var chessBoard1Undo2 = chessBoard1Undo;
-var chessBoard2Undo2 = chessBoard2Undo;
-var chessBoard3Undo2 = chessBoard3Undo;
-var chessBoard4Undo2 = chessBoard4Undo;
-var chessBoard5Undo2 = chessBoard5Undo;
-var chessBoard6Undo2 = chessBoard6Undo;
-var chessBoard7Undo2 = chessBoard7Undo;
-var chessBoard8Undo2 = chessBoard8Undo;
 
 //This function places a piece on 'HTMLchessboard' 
 //Input: Chess Piece Variable, X-Coord on Canvas, Y-Coord on Canvas
@@ -666,14 +772,12 @@ function whiteCastling() {
 	var destinationCoords = mouseToCoords(nextTurnDestination);
 	if (mouseToArray(nextTurnOrigin) == KI && destinationCoords[0] == 7 && whiteCastleYet == false
 	&& destinationCoords[1] == 8 && chessBoard8[7] == RO && chessBoard8[6] == empty && chessBoard8[5] == empty) {
-		moveUndoRecord();
 		movePiece(mouseToCoords(nextTurnOrigin),mouseToCoords(nextTurnDestination));
 		movePiece(['8','8'],['6','8']);
 		console.log ("White has kingside castled.");
 		return true;
 	} else if (mouseToArray(nextTurnOrigin) == KI && destinationCoords[0] == 2 && blackCastleYet == false
 	&& destinationCoords[1] == 8 && chessBoard8[0] == RO && chessBoard8[1] == empty && chessBoard8[2] == empty && chessBoard8[3] == empty) {
-		moveUndoRecord();
 		movePiece(mouseToCoords(nextTurnOrigin),mouseToCoords(nextTurnDestination));
 		movePiece(['1','8'],['3','8']);
 		console.log ("White has queenside castled.");
@@ -691,14 +795,12 @@ function blackCastling() {
 	var destinationCoords = mouseToCoords(nextTurnDestination);
 	if (mouseToArray(nextTurnOrigin) == ki && destinationCoords[0] == 7 
 	&& destinationCoords[1] == 1 && chessBoard1[7] == ro && chessBoard1[6] == empty && chessBoard1[5] == empty) {
-		moveUndoRecord();
 		movePiece(mouseToCoords(nextTurnOrigin),mouseToCoords(nextTurnDestination));
 		movePiece(['8','1'],['6','1']);
 		console.log ("White has kingside castled.");
 		return true;
 	} else if (mouseToArray(nextTurnOrigin) == ki && destinationCoords[0] == 2
 	&& destinationCoords[1] == 1 && chessBoard1[0] == ro && chessBoard1[1] == empty && chessBoard1[2] == empty && chessBoard1[3] == empty) {
-		moveUndoRecord();
 		movePiece(mouseToCoords(nextTurnOrigin),mouseToCoords(nextTurnDestination));
 		movePiece(['1','1'],['3','1']);
 		console.log ("White has queenside castled.");
@@ -892,67 +994,6 @@ function movePiece (origin, destination) {
 		
 };
  
-//Records moves. Call before movePiece() 
-function moveUndoRecord () {
-	var chessBoard1Undo2 = chessBoard1Undo;
-	var chessBoard2Undo2 = chessBoard2Undo;
-	var chessBoard3Undo2 = chessBoard3Undo;
-	var chessBoard4Undo2 = chessBoard4Undo;
-	var chessBoard5Undo2 = chessBoard5Undo;
-	var chessBoard6Undo2 = chessBoard6Undo;
-	var chessBoard7Undo2 = chessBoard7Undo;
-	var chessBoard8Undo2 = chessBoard8Undo;
-	
-	var chessBoard1Undo = chessBoard1;
-	var chessBoard2Undo = chessBoard2;
-	var chessBoard3Undo = chessBoard3;
-	var chessBoard4Undo = chessBoard4;
-	var chessBoard5Undo = chessBoard5;
-	var chessBoard6Undo = chessBoard6;
-	var chessBoard7Undo = chessBoard7;
-	var chessBoard8Undo = chessBoard8;
-}
- 
-//This function undos moves using the extra arrays. 
-//Input: none 
-//Output: Changes chessBoard arrays.
-function moveUndo () {
-	if (aiOption == true) {
-		chessBoard1 = chessBoard1Undo2;
-		chessBoard2 = chessBoard2Undo2;
-		chessBoard3 = chessBoard3Undo2;
-		chessBoard4 = chessBoard4Undo2;
-		chessBoard5 = chessBoard5Undo2;
-		chessBoard6 = chessBoard6Undo2;
-		chessBoard7 = chessBoard7Undo2;
-		chessBoard8 = chessBoard8Undo2;	
-		drawChessboardOutline();
-		drawChessboard();
-	} else {
-		chessBoard1 = chessBoard1Undo;
-		chessBoard2 = chessBoard2Undo;
-		chessBoard3 = chessBoard3Undo;
-		chessBoard4 = chessBoard4Undo;
-		chessBoard5 = chessBoard5Undo;
-		chessBoard6 = chessBoard6Undo;
-		chessBoard7 = chessBoard7Undo;
-		chessBoard8 = chessBoard8Undo;
-		
-		chessBoard1Undo = chessBoard1Undo2;
-		chessBoard2Undo = chessBoard2Undo2;
-		chessBoard3Undo = chessBoard3Undo2;
-		chessBoard4Undo = chessBoard4Undo2;
-		chessBoard5Undo = chessBoard5Undo2;
-		chessBoard6Undo = chessBoard6Undo2;
-		chessBoard7Undo = chessBoard7Undo2;
-		chessBoard8Undo = chessBoard8Undo2;	
-				
-		playerTurn = playerTurn * -1;
-		drawChessboardOutline();
-		drawChessboard();		
-	};
-}; 
- 
 //Gives the value of a chess piece based on this: http://chess.stackexchange.com/questions/2409/how-many-points-is-each-chess-piece-worth
 //Input: Chessboard Piece Array Variable
 //Output: Integer
@@ -978,21 +1019,29 @@ function distanceFormula (array1, array2) {
 	return (-1 * (Math.sqrt(((array2[0] - array1[0]) * (array2[0] - array1[0])) + ((array2[1] - array1[1]) * (array2[1] - array1[1])))));
 };
 
-//START CALLING FUNCTIONS AND DOING GAMEFLOW STUFF 
+//Resets the chessboard to starting positions. Also resets turn count.
+function chessboardReset () {
+	playerTurn = 1;
 
-//Drawing the outline of the HTML chessboard on the canvas, 'HTMLchessboard'	
-drawChessboardOutline();
-//Waiting three seconds until after the board outline is drawn the placing the starting pieces on it.
-setTimeout(drawChessboard(), 5000);
-//Initializing the turn counter.
-whiteTurn();
+	chessBoard1 = [ro,kn,bi,qu,ki,bi,kn,ro];
+	chessBoard2 = [pa,pa,pa,pa,pa,pa,pa,pa];
+	chessBoard3 = [empty,empty,empty,empty,empty,empty,empty,empty];
+	chessBoard4 = [empty,empty,empty,empty,empty,empty,empty,empty];
+	chessBoard5 = [empty,empty,empty,empty,empty,empty,empty,empty];
+	chessBoard6 = [empty,empty,empty,empty,empty,empty,empty,empty];
+	chessBoard7 = [PA,PA,PA,PA,PA,PA,PA,PA];	
+	chessBoard8 = [RO,KN,BI,QU,KI,BI,KN,RO];
+	
+};
+
+//START CALLING FUNCTIONS AND DOING GAMEFLOW STUFF 
  
 //Gameflow Variables and Loops:
 
 var playerTurn = 1;
 
 function getRandomIntInclusive(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 //Chess AI
@@ -1104,7 +1153,7 @@ function chessAI () {
 			movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 			drawChessboardOutline();
 			drawChessboard();
-			console.log(originBeforeMovement + " moved to " + mouseToCoords(nextTurnDestination));		
+			console.log(originBeforeMovement + " moved to " + mouseToCoords(nextTurnDestination));	
 			break;
 		
 		} else {
@@ -1164,7 +1213,6 @@ function gameLoop () {
 		
 	} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true) {
 		originBeforeMovement = mouseToArray(nextTurnOrigin); //Only used for console.log
-		moveUndoRecord();
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 		drawChessboardOutline();
 		drawChessboard();
@@ -1180,7 +1228,7 @@ function gameLoop () {
 //		console.log(chessBoard7);
 //		console.log(chessBoard8);
 		//For console log.
-
+		
 		if (playerTurn == 1 && aiOption == true){
 			whiteTurn();
 			playerTurn = -1;
