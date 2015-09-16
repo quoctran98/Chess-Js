@@ -839,7 +839,17 @@ function moveCheck (piece) {
 	} else {
 		movementCheck = blackPawnCheck(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 	};
-	return movementCheck && samePlace() && eatPiece() && turnChoose();
+	
+	var collisionDetectionRookVar = true;
+	var collisionDetectionBishopVar = true;
+	var collisionDetectionQueenVar = true;
+	
+	if (mouseToArray(nextTurnOrigin) == RO || mouseToArray(nextTurnOrigin) == ro) { collisionDetectionRookVar = collisionDetectionRook(); };
+	if (mouseToArray(nextTurnOrigin) == BI || mouseToArray(nextTurnOrigin) == bi) { collisionDetectionBishopVar = collisionDetectionBishop(); };
+	if (mouseToArray(nextTurnOrigin) == QU || mouseToArray(nextTurnOrigin) == qu) { collisionDetectionQueenVar = collisionDetectionQueen(); };
+	
+	return movementCheck && samePlace() && eatPiece() && turnChoose() && collisionDetectionRookVar && collisionDetectionBishopVar && collisionDetectionQueenVar; 
+	
 };
 
 //This function tells gameLoop() whether or not peices are trying to move to the same place they started on.
@@ -888,16 +898,138 @@ function eatPiece() {
 	};	
 };
 
-//This function determines whether or nota piece is going through another one.
+//This function determines whether or not a rook is going through another piece.
 //Input: none (uses nextTurnOrigin and nextTurnDestination)
 //Output: Boolean
-//Relies On: 
-//function collisionDetection() {
-//	if (mouseToArray(nextTurnOrigin) == RO || mouseToArray(nextTurnOrigin) == ro) {
-//		var i = 0;
-//		
-//	};
-//};
+//Relies On: "mouseToArray" , "mouseToCoords" , "coordsToArray" , and MUCH MORE!
+function collisionDetectionRook () {
+	
+	var originCoords = mouseToCoords(nextTurnOrigin);
+	var destinationCoords = mouseToCoords(nextTurnDestination);
+	
+	if (destinationCoords[0] == originCoords[0]) { //For Vertical Movement
+		if (originCoords[1] < destinationCoords[1]) { //Going Down
+			var y = originCoords[1];
+			while (y < (destinationCoords[1])) {
+				y++;
+				if (coordsToArray([originCoords[0],y.toString()]) != empty) {
+					if (coordsToArray([originCoords[0],y.toString()]) != mouseToArray(nextTurnDestination)) {
+						return false;
+					};
+				};
+			};
+		} else if (originCoords[1] > destinationCoords[1]) { //Going Up
+			var y = originCoords[1];
+			while (y > (destinationCoords[1])) {
+				y--;	
+				if (coordsToArray([originCoords[0],y.toString()]) != empty) {
+					if (coordsToArray([originCoords[0],y.toString()]) != mouseToArray(nextTurnDestination)) {
+						return false;
+					};
+				};
+			};
+		};
+		
+	} else if (destinationCoords[1] == originCoords[1]) { //For Horizontal Movement
+		if (originCoords[0] < destinationCoords[0]) { //Going Right
+			var x = originCoords[0];
+			while (x < (destinationCoords[0])) {
+				x++;
+				if (coordsToArray([x.toString(),originCoords[1]]) != empty) {
+					if (coordsToArray([x.toString(),originCoords[1]]) != mouseToArray(nextTurnDestination)) {
+						return false;
+					};
+				};
+			};
+		} else if (originCoords[0] > destinationCoords[0]) { //Going Left
+			var x = originCoords[0];
+			while (x > (destinationCoords[0])) {
+				x--;
+				if (coordsToArray([x.toString(),originCoords[1]]) != empty) {
+					if (coordsToArray([x.toString(),originCoords[1]]) != mouseToArray(nextTurnDestination)) {
+						return false;
+					};
+				};
+			};
+		};
+	};
+	return true;
+};
+
+//This function determines whether or not a bishop is going through another piece.
+//Input: none (uses nextTurnOrigin and nextTurnDestination)
+//Output: Boolean
+//Relies On: "mouseToArray" , "mouseToCoords" , "coordsToArray" , and MUCH MORE!
+function collisionDetectionBishop () {
+	
+	var originCoords = mouseToCoords(nextTurnOrigin);
+	var destinationCoords = mouseToCoords(nextTurnDestination);
+	
+	if (destinationCoords[0] > originCoords[0]) { //For Rightward Movement
+		if (originCoords[1] < destinationCoords[1]) { //Going Down - Diagonally
+			var y = originCoords[1];
+			var x = originCoords[0];
+			while (y < destinationCoords[1] && x < destinationCoords[0]) {
+				y++;
+				x++;
+				if (coordsToArray([x.toString(),y.toString()]) != empty) {
+					if (coordsToArray([x.toString(),y.toString()]) != mouseToArray(nextTurnDestination)) {
+						return false;
+					};
+				};
+			};
+		} else if (originCoords[1] > destinationCoords[1]) { //Going Up - Diagonally
+			var y = originCoords[1];
+			var x = originCoords[0];
+			while (y > destinationCoords[1] && x < destinationCoords[0]) {
+				y--;
+				x++;
+				if (coordsToArray([x.toString(),y.toString()]) != empty) {
+					if (coordsToArray([x.toString(),y.toString()]) != mouseToArray(nextTurnDestination)) {
+						return false;
+					};
+				};
+			};
+		};
+		
+	} else if (destinationCoords[0] < originCoords[0]) { //For Leftward Movement
+		if (originCoords[1] < destinationCoords[1]) { //Going Down - Diagonally
+			var y = originCoords[1];
+			var x = originCoords[0];
+			while (y < destinationCoords[1] && x > destinationCoords[0]) {
+				y++;
+				x--;
+				if (coordsToArray([x.toString(),y.toString()]) != empty) {
+					if (coordsToArray([x.toString(),y.toString()]) != mouseToArray(nextTurnDestination)) {
+						return false;
+					};
+				};
+			};
+		} else if (originCoords[1] > destinationCoords[1]) { //Going Up - Diagonally
+			var y = originCoords[1];
+			var x = originCoords[0];
+			while (y > destinationCoords[1] && x > destinationCoords[0]) {
+				y--;
+				x--;
+				if (coordsToArray([x.toString(),y.toString()]) != empty) {
+					if (coordsToArray([x.toString(),y.toString()]) != mouseToArray(nextTurnDestination)) {
+						return false;
+					};
+				};
+			};
+		};
+	};
+	return true;
+};
+
+
+//This function determines whether or not a bishop is going through another piece.
+//Input: none (uses nextTurnOrigin and nextTurnDestination)
+//Output: Boolean
+//Relies On: "collisionDetectionBishop" and "collisionDetectionRook"
+function collisionDetectionQueen () {
+	return collisionDetectionBishop() && collisionDetectionRook();
+};
 
 }
 
