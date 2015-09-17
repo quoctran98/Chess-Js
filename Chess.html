@@ -5,7 +5,7 @@
 
 <script type="text/javascript">
 
-//WIP Features: Collision detection bewtween pieces, Pawns changing into other pieces, en passant
+//WIP Features: Pawns changing into other pieces, en passant
 
 //Functions and variables for menu screen. Also includes all buttons that change colors when moused over.
 {
@@ -777,13 +777,13 @@ function whiteCastling() {
 		movePiece(mouseToCoords(nextTurnOrigin),mouseToCoords(nextTurnDestination));
 		movePiece(['8','8'],['6','8']);
 		console.log ("White has kingside castled.");
-		return true;
+		return true;		
 	} else if (mouseToArray(nextTurnOrigin) == KI && destinationCoords[0] == 2 && blackCastleYet == false
 	&& destinationCoords[1] == 8 && chessBoard8[0] == RO && chessBoard8[1] == empty && chessBoard8[2] == empty && chessBoard8[3] == empty) {
 		movePiece(mouseToCoords(nextTurnOrigin),mouseToCoords(nextTurnDestination));
 		movePiece(['1','8'],['3','8']);
 		console.log ("White has queenside castled.");
-		return true;
+		return true;		
 	} else {
 		return false;
 	};
@@ -843,12 +843,17 @@ function moveCheck (piece) {
 	var collisionDetectionRookVar = true;
 	var collisionDetectionBishopVar = true;
 	var collisionDetectionQueenVar = true;
+	var collisionDetectionWhitePawnVar = true;
+	var collisionDetectionBlackPawnVar = true;	
 	
 	if (mouseToArray(nextTurnOrigin) == RO || mouseToArray(nextTurnOrigin) == ro) { collisionDetectionRookVar = collisionDetectionRook(); };
 	if (mouseToArray(nextTurnOrigin) == BI || mouseToArray(nextTurnOrigin) == bi) { collisionDetectionBishopVar = collisionDetectionBishop(); };
 	if (mouseToArray(nextTurnOrigin) == QU || mouseToArray(nextTurnOrigin) == qu) { collisionDetectionQueenVar = collisionDetectionQueen(); };
+	if (mouseToArray(nextTurnOrigin) == PA) { collisionDetectionWhitePawnVar = collisionDetectionWhitePawn(); };
+	if (mouseToArray(nextTurnOrigin) == pa) { collisionDetectionBlackPawnVar = collisionDetectionBlackPawn(); };	
 	
-	return movementCheck && samePlace() && eatPiece() && turnChoose() && collisionDetectionRookVar && collisionDetectionBishopVar && collisionDetectionQueenVar; 
+	return movementCheck && samePlace() && eatPiece() && turnChoose() && collisionDetectionRookVar && collisionDetectionBishopVar 
+	&& collisionDetectionQueenVar && collisionDetectionBlackPawnVar && collisionDetectionWhitePawnVar; 
 	
 };
 
@@ -1023,12 +1028,52 @@ function collisionDetectionBishop () {
 };
 
 
-//This function determines whether or not a bishop is going through another piece.
+//This function determines whether or not a queen is going through another piece.
 //Input: none (uses nextTurnOrigin and nextTurnDestination)
 //Output: Boolean
 //Relies On: "collisionDetectionBishop" and "collisionDetectionRook"
 function collisionDetectionQueen () {
 	return collisionDetectionBishop() && collisionDetectionRook();
+};
+
+//This function determines whether or not a black pawn is going through another piece for its first move.
+//Input: none (uses nextTurnOrigin and nextTurnDestination)
+//Output: Boolean
+//Relies On: 
+function collisionDetectionBlackPawn () {
+alert ("hi");
+	var originCoords = mouseToCoords(nextTurnOrigin);
+	var destinationCoords = mouseToCoords(nextTurnDestination);
+
+	if (originCoords[1] + 2 == destinationCoords[1]) {
+		if (coordsToArray([originCoords[0].toString(), "3"]) != empty) {
+			return false;
+		} else {
+			return true;
+		};	
+	} else {
+		return true;
+	};
+};
+
+//This function determines whether or not a white pawn is going through another piece for its first move.
+//Input: none (uses nextTurnOrigin and nextTurnDestination)
+//Output: Boolean
+//Relies On: 
+function collisionDetectionWhitePawn () {
+alert("hi");
+	var originCoords = mouseToCoords(nextTurnOrigin);
+	var destinationCoords = mouseToCoords(nextTurnDestination);
+
+	if (originCoords[1] - 2 == destinationCoords[1]) {
+		if (coordsToArray([originCoords[0].toString(), "6"]) != empty) {
+			return false;
+		} else {
+			return true;
+		};	
+	} else {
+		return true;
+	};
 };
 
 }
@@ -1211,7 +1256,7 @@ function chessAI () {
 			movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));
 			drawChessboardOutline();
 			drawChessboard();
-			alert ("Black has won. You've been beaten by an AI that plays by choosing random numbers. Way to go.");
+			setTimeout(alert ("Black has won. You've been beaten by an AI that plays by choosing random numbers. Way to go."), 1000);
 			break;
 		} else if (moveCheck(mouseToArray(nextTurnOrigin)) == true && chessAIDone == false) {
 			if (tempCoordsInfo1 == 0) {
@@ -1301,13 +1346,13 @@ function chessAI () {
 function gameLoop () {
 	if ((mouseToArray(nextTurnDestination)) == KI && moveCheck(mouseToArray(nextTurnOrigin)) == true) {
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));	
-		alert ("Black has won!");		
+		setTimeout(alert ("Black has won!"), 1000);		
 		drawChessboardOutline();
 		drawChessboard();
 		
 	} else if ((mouseToArray(nextTurnDestination)) == ki && moveCheck(mouseToArray(nextTurnOrigin)) == true) {
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));	
-		alert ("White has won!");		
+		setTimeout(alert ("White has won!"), 1000);		
 		drawChessboardOutline();
 		drawChessboard();
 		
@@ -1322,6 +1367,7 @@ function gameLoop () {
 		drawChessboard();
 		
 	} else if (whiteCastling() == true && whiteCastleYet == false) { 
+		whiteCastling();
 		whiteCastleYet = true;
 		drawChessboardOutline();
 		drawChessboard();
