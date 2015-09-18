@@ -1,13 +1,6 @@
-<html>
-<body>
-<canvas id="chessboard" onclick = "mouseStop()" onmousemove = "mouseMove()" width="975" height="675" style="border:3px solid #d3d3d3;" >
-</canvas>
+WIP Features Pawns changing into other pieces, en passant
 
-<script type="text/javascript" >
-
-//WIP Features Pawns changing into other pieces, en passant
-
-//Functions and variables for menu screen. Also includes all buttons that change colors when moused over.
+Functions and variables for menu screen. Also includes all buttons that change colors when moused over.
 {
 var aiOption = false;
 
@@ -119,10 +112,10 @@ drawMenuPersonOff();
 
 };
 
-//Functions and varibles for clicking on the screen.
+Functions and varibles for clicking on the screen.
 {
-//Every time the canvas is pressed, the x and y coordinates of the mouse are logged in nextTurnOrigin the first time and nextTurnDestination.
-//At the beginning of the next turn, mouseStopVar should be reset to 0.
+Every time the canvas is pressed, the x and y coordinates of the mouse are logged in nextTurnOrigin the first time and nextTurnDestination.
+At the beginning of the next turn, mouseStopVar should be reset to 0.
 
 Offset for the canvas from the edge of the screen. I should change this.
 var xOffset = 10;
@@ -147,8 +140,8 @@ function getMouseCoordsDestination(event) {
 
 var mouseStopVar = 0; 
 
-//This function calls gameLoop after two clicks are registered and the coords have been recorded, then it resets mouseStopVar.
-//If the mouse is not clicked within the chessboard, menuClicks is called.
+This function calls gameLoop after two clicks are registered and the coords have been recorded, then it resets mouseStopVar.
+If the mouse is not clicked within the chessboard, menuClicks is called.
 function mouseStop () {
 	if (getMouseCoords(event)[0]  675 && inGame == true) {
 		clearWarningBox();
@@ -193,7 +186,7 @@ function mouseStop () {
 
 }; 
 
-//Chessboard Outline Drawing Functions
+Chessboard Outline Drawing Functions
 {
 
 function whiteTurn () {
@@ -301,11 +294,11 @@ function clearWarningBox () {
 
 };
 			
-//Chessboard Arrays and Chessboard Drawing  Piece Placing Function
+Chessboard Arrays and Chessboard Drawing  Piece Placing Function
 {
 
-//NOTE THAT NAMING OF THE ARRAYS IS BACKWARDS FROM ACTUAL DISPLAY LABELS ON THE CANVAS 
-//(i.e. chessBoard1 is actually labeled 8, chessBoard5 is actually labeled 4, chessBoard8 is actually labeled 1, etc...)
+NOTE THAT NAMING OF THE ARRAYS IS BACKWARDS FROM ACTUAL DISPLAY LABELS ON THE CANVAS 
+(i.e. chessBoard1 is actually labeled 8, chessBoard5 is actually labeled 4, chessBoard8 is actually labeled 1, etc...)
 
 var empty = ;
 
@@ -496,12 +489,12 @@ function drawChessboard () {
 };
 };
 
-//Mouse Coords -- Chessboard Array Coords -- Chess Piece Variable FUNCTIONS
+Mouse Coords -- Chessboard Array Coords -- Chess Piece Variable FUNCTIONS
 {
 
-//This function returns the peice on the chessboard.
-//Input Mouse Coords in the Array [x,y] 
-//Output Chess Piece Variable
+This function returns the peice on the chessboard.
+Input Mouse Coords in the Array [x,y] 
+Output Chess Piece Variable
 function mouseToArray (mouseCoords) {
 	var x = mouseCoords[0];
 	var y = mouseCoords[1];
@@ -548,9 +541,9 @@ function mouseToArray (mouseCoords) {
 	
 };
 
-//This function returns the coords as an array [x,y] on the chessbord, but y-axis labeling is flipped from the labels on the drawn board. 
-//Input Mouse Coords in the Array [x,y]
-//Output Chessboard Array Coords
+This function returns the coords as an array [x,y] on the chessbord, but y-axis labeling is flipped from the labels on the drawn board. 
+Input Mouse Coords in the Array [x,y]
+Output Chessboard Array Coords
 function mouseToCoords (mouseCoords) {
 	var x = mouseCoords[0];
 	var y = mouseCoords[1];	
@@ -600,9 +593,9 @@ function mouseToCoords (mouseCoords) {
 	return coords;
 };
 
-//This function takes the coords as an array [x,y] and returns the peice.
-//Input Chessboard Array Coords
-//Output Chess Piece Variable
+This function takes the coords as an array [x,y] and returns the peice.
+Input Chessboard Array Coords
+Output Chess Piece Variable
 function coordsToArray (coords) {
 	var column = (coords[0] - 1);
 	var finalLocation = 0;
@@ -635,9 +628,9 @@ function coordsToArray (coords) {
 	return finalLocation;
 };
 
-//This function looks for where a certain piece is.
-//Input Chess Piece Variable
-//Output Chessboard Array Coords
+This function looks for where a certain piece is.
+Input Chess Piece Variable
+Output Chessboard Array Coords
 function arrayToCoords (piece) {
 	var i = 0;
 	while (i  8) {
@@ -671,9 +664,9 @@ function arrayToCoords (piece) {
 	};
 };
 
-//This function takes the coords as an array [x,y] and returns the upper left coordinate of the square for the canvas.
-//Input Chessboard Array Coords
-//Output Canvas Coords as an array [x,y]
+This function takes the coords as an array [x,y] and returns the upper left coordinate of the square for the canvas.
+Input Chessboard Array Coords
+Output Canvas Coords as an array [x,y]
 function coordsToCanvas (coords) {
 	var canvasCoords = ['x','y'];
 	canvasCoords[0] = coords[0]  75;
@@ -681,9 +674,9 @@ function coordsToCanvas (coords) {
 };
 };
 
-//Piece Check Functions
-//These checks use algorithmns determine whether or not a chess move is valid.
-//These functions are called through the moveCheck function only.
+Piece Check Functions
+These checks use algorithmns determine whether or not a chess move is valid.
+These functions are called through the moveCheck function only.
 {
 function kingCheck (origin, destination){
 	if ((Math.abs(origin[0] - destination[0]) = 1) && (Math.abs(origin[1] - destination[1]) = 1)) {
@@ -758,18 +751,18 @@ function blackPawnCheck (origin, destination) {
 };
 };
 
-//Special Gamerules Functions
-//These are to be tested for before normal movement checks in gameLoop.
-//Includes whiteCastling, blackCastling
+Special Gamerules Functions
+These are to be tested for before normal movement checks in gameLoop.
+Includes whiteCastling, blackCastling
 {
 
 var whiteCastleYet = false; 
 var blackCastleYet = false;
 
-//This function checks if white is trying to castle queenside or kingside and checks the validity as well as moves the pieces.
-//Input none (run through gameLoop())
-//Output Boolean and calls on movePiece
-//Relies On mouseToCoords, mouseToArray, nextTurnDestination, nextTurnOrigin,movePiece, and the chessBoard arrays
+This function checks if white is trying to castle queenside or kingside and checks the validity as well as moves the pieces.
+Input none (run through gameLoop())
+Output Boolean and calls on movePiece
+Relies On mouseToCoords, mouseToArray, nextTurnDestination, nextTurnOrigin,movePiece, and the chessBoard arrays
 function whiteCastling() {
 	var destinationCoords = mouseToCoords(nextTurnDestination);
 	if (mouseToArray(nextTurnOrigin) == KI && destinationCoords[0] == 7 && whiteCastleYet == false
@@ -789,10 +782,10 @@ function whiteCastling() {
 	};
 };
 
-//This function checks if black is trying to castle queenside or kingside and checks the validity as well as moves the pieces.
-//Input none (run through gameLoop())
-//Output Boolean and calls on movePiece
-//Relies On mouseToCoords, mouseToArray, nextTurnDestination, nextTurnOrigin,movePiece, and the chessBoard arrays
+This function checks if black is trying to castle queenside or kingside and checks the validity as well as moves the pieces.
+Input none (run through gameLoop())
+Output Boolean and calls on movePiece
+Relies On mouseToCoords, mouseToArray, nextTurnDestination, nextTurnOrigin,movePiece, and the chessBoard arrays
 function blackCastling() {
 	var destinationCoords = mouseToCoords(nextTurnDestination);
 	if (mouseToArray(nextTurnOrigin) == ki && destinationCoords[0] == 7 
@@ -814,14 +807,14 @@ function blackCastling() {
 
 };
 
-//Move Validity Check Functions
-//Includes moveCheck(), samePlace() turnChoose() eatPiece()
+Move Validity Check Functions
+Includes moveCheck(), samePlace() turnChoose() eatPiece()
 {
-//This function finds the correct piece check function and runs it. 
-//MASTER FUNCTION Calls on samePlace() turnChoose() eatPiece()
-//Input Chess Piece Variable
-//Output Boolean based on the Piece Check Functions 
-//Relies On mouseToCoords, nextTurnDestination, nextTurnOrigin
+This function finds the correct piece check function and runs it. 
+MASTER FUNCTION Calls on samePlace() turnChoose() eatPiece()
+Input Chess Piece Variable
+Output Boolean based on the Piece Check Functions 
+Relies On mouseToCoords, nextTurnDestination, nextTurnOrigin
 function moveCheck (piece) {
 	var movementCheck = false;
 	if ((piece == KI)  (piece == ki)) {
@@ -857,10 +850,10 @@ function moveCheck (piece) {
 	
 };
 
-//This function tells gameLoop() whether or not peices are trying to move to the same place they started on.
-//Input none (uses nextTurnOrigin and nextTurnDestination)
-//Output Boolean
-//Relies On mouseToCoords, mouseToArray, nextTurnOrigin. nextTurnDestination
+This function tells gameLoop() whether or not peices are trying to move to the same place they started on.
+Input none (uses nextTurnOrigin and nextTurnDestination)
+Output Boolean
+Relies On mouseToCoords, mouseToArray, nextTurnOrigin. nextTurnDestination
 function samePlace() {
 	var originCoords = mouseToCoords(nextTurnOrigin);
 	var destinationCoords = mouseToCoords(nextTurnDestination);
@@ -871,10 +864,10 @@ function samePlace() {
 	};
 };
 
-//This function determines whether or not it is your turn.
-//Input none (uses nextTurnOrigin and nextTurnDestination)
-//Output Boolean
-//Relies On mouseToCoords, mouseToArray, nextTurnOrigin. nextTurnDestination
+This function determines whether or not it is your turn.
+Input none (uses nextTurnOrigin and nextTurnDestination)
+Output Boolean
+Relies On mouseToCoords, mouseToArray, nextTurnOrigin. nextTurnDestination
 function turnChoose() {
 	if ((playerTurn == 1) && (mouseToArray(nextTurnOrigin) == KI  mouseToArray(nextTurnOrigin) == QU 
 	 mouseToArray(nextTurnOrigin) == BI  mouseToArray(nextTurnOrigin) == KN  mouseToArray(nextTurnOrigin) == RO  mouseToArray(nextTurnOrigin) == PA)) {
@@ -887,10 +880,10 @@ function turnChoose() {
 	};
 };
 
-//This function determines whether or not you can eat a particular piece.
-//Input none (uses nextTurnOrigin and nextTurnDestination)
-//Output Boolean
-//Relies On mouseToCoords, mouseToArray, nextTurnOrigin. nextTurnDestination
+This function determines whether or not you can eat a particular piece.
+Input none (uses nextTurnOrigin and nextTurnDestination)
+Output Boolean
+Relies On mouseToCoords, mouseToArray, nextTurnOrigin. nextTurnDestination
 function eatPiece() {
 	if ((playerTurn == -1) && (mouseToArray(nextTurnDestination) == KI  mouseToArray(nextTurnDestination) == QU 
 	 mouseToArray(nextTurnDestination) == BI  mouseToArray(nextTurnDestination) == KN  mouseToArray(nextTurnDestination) == RO  mouseToArray(nextTurnDestination) == PA  mouseToArray(nextTurnDestination) == empty)) {
@@ -903,10 +896,10 @@ function eatPiece() {
 	};	
 };
 
-//This function determines whether or not a rook is going through another piece.
-//Input none (uses nextTurnOrigin and nextTurnDestination)
-//Output Boolean
-//Relies On mouseToArray , mouseToCoords , coordsToArray , and MUCH MORE!
+This function determines whether or not a rook is going through another piece.
+Input none (uses nextTurnOrigin and nextTurnDestination)
+Output Boolean
+Relies On mouseToArray , mouseToCoords , coordsToArray , and MUCH MORE!
 function collisionDetectionRook () {
 	
 	var originCoords = mouseToCoords(nextTurnOrigin);
@@ -961,10 +954,10 @@ function collisionDetectionRook () {
 	return true;
 };
 
-//This function determines whether or not a bishop is going through another piece.
-//Input none (uses nextTurnOrigin and nextTurnDestination)
-//Output Boolean
-//Relies On mouseToArray , mouseToCoords , coordsToArray , and MUCH MORE!
+This function determines whether or not a bishop is going through another piece.
+Input none (uses nextTurnOrigin and nextTurnDestination)
+Output Boolean
+Relies On mouseToArray , mouseToCoords , coordsToArray , and MUCH MORE!
 function collisionDetectionBishop () {
 	
 	var originCoords = mouseToCoords(nextTurnOrigin);
@@ -1028,18 +1021,18 @@ function collisionDetectionBishop () {
 };
 
 
-//This function determines whether or not a queen is going through another piece.
-//Input none (uses nextTurnOrigin and nextTurnDestination)
-//Output Boolean
-//Relies On collisionDetectionBishop and collisionDetectionRook
+This function determines whether or not a queen is going through another piece.
+Input none (uses nextTurnOrigin and nextTurnDestination)
+Output Boolean
+Relies On collisionDetectionBishop and collisionDetectionRook
 function collisionDetectionQueen () {
 	return collisionDetectionBishop() && collisionDetectionRook();
 };
 
-//This function determines whether or not a black pawn is going through another piece for its first move.
-//Input none (uses nextTurnOrigin and nextTurnDestination)
-//Output Boolean
-//Relies On 
+This function determines whether or not a black pawn is going through another piece for its first move.
+Input none (uses nextTurnOrigin and nextTurnDestination)
+Output Boolean
+Relies On 
 function collisionDetectionBlackPawn () {
 	var originCoords = mouseToCoords(nextTurnOrigin);
 	var destinationCoords = mouseToCoords(nextTurnDestination);
@@ -1055,10 +1048,10 @@ function collisionDetectionBlackPawn () {
 	};
 };
 
-//This function determines whether or not a white pawn is going through another piece for its first move.
-//Input none (uses nextTurnOrigin and nextTurnDestination)
-//Output Boolean
-//Relies On 
+This function determines whether or not a white pawn is going through another piece for its first move.
+Input none (uses nextTurnOrigin and nextTurnDestination)
+Output Boolean
+Relies On 
 function collisionDetectionWhitePawn () {
 	var originCoords = mouseToCoords(nextTurnOrigin);
 	var destinationCoords = mouseToCoords(nextTurnDestination);
@@ -1076,10 +1069,10 @@ function collisionDetectionWhitePawn () {
 
 }
 
-//Moves peices as using array coords of origin and destination. 
-//Input Chessboard Array Coords
-//Output none (changes location of pieces in the chessboard arrays)
-//Relies On coordsToArray
+Moves peices as using array coords of origin and destination. 
+Input Chessboard Array Coords
+Output none (changes location of pieces in the chessboard arrays)
+Relies On coordsToArray
 function movePiece (origin, destination) {
 
 	var originPiece = coordsToArray(origin);
@@ -1171,9 +1164,9 @@ function movePiece (origin, destination) {
 		
 };
  
-//Gives the value of a chess piece based on this httpchess.stackexchange.comquestions2409how-many-points-is-each-chess-piece-worth
-//Input Chessboard Piece Array Variable
-//Output Integer
+Gives the value of a chess piece based on this httpchess.stackexchange.comquestions2409how-many-points-is-each-chess-piece-worth
+Input Chessboard Piece Array Variable
+Output Integer
 function chessPieceValue (array) {
 	if (array == KI  array == ki) {
 		return 100;
@@ -1196,7 +1189,7 @@ function distanceFormula (array1, array2) {
 	return (-1  (Math.sqrt(((array2[0] - array1[0])  (array2[0] - array1[0])) + ((array2[1] - array1[1])  (array2[1] - array1[1])))));
 };
 
-//Resets the chessboard to starting positions. Also resets turn count.
+Resets the chessboard to starting positions. Also resets turn count.
 function chessboardReset () {
 	playerTurn = 1;
 
@@ -1211,9 +1204,9 @@ function chessboardReset () {
 	
 };
 
-//START CALLING FUNCTIONS AND DOING GAMEFLOW STUFF 
+START CALLING FUNCTIONS AND DOING GAMEFLOW STUFF 
  
-//Gameflow Variables and Loops
+Gameflow Variables and Loops
 
 var playerTurn = 1;
 
@@ -1221,8 +1214,8 @@ function getRandomIntInclusive(min, max) {
 	return Math.floor(Math.random()  (max - min + 1)) + min;
 };
 
-//Chess AI
-//It pulls random numbers and runs them through moveCheck and the best of the first five viable ones is selected as a movement.
+Chess AI
+It pulls random numbers and runs them through moveCheck and the best of the first five viable ones is selected as a movement.
 function chessAI () {
 
 	var chessAI = 0;
@@ -1340,7 +1333,7 @@ function chessAI () {
 	};
 };
 
-//This function is called when mouseStop is called for the second time and moves pieces.
+This function is called when mouseStop is called for the second time and moves pieces.
 function gameLoop () {
 	if ((mouseToArray(nextTurnDestination)) == KI && moveCheck(mouseToArray(nextTurnOrigin)) == true) {
 		movePiece(mouseToCoords(nextTurnOrigin), mouseToCoords(nextTurnDestination));	
@@ -1423,8 +1416,3 @@ function gameLoop () {
 	};
 };	
 };
-
-
-</script>
-</body>
-</html>
