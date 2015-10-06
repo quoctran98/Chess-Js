@@ -332,7 +332,7 @@ var chessBoard6 = [empty,empty,empty,empty,empty,empty,empty,empty];
 var chessBoard7 = [PA,PA,PA,PA,PA,PA,PA,PA];	
 var chessBoard8 = [RO,KN,BI,QU,KI,BI,KN,RO];
 
-//This function places a piece on 'HTMLchessboard' 
+//This function places a piece on 'HTMLchessboard'. 
 //Input: Chess Piece Variable, X-Coord on Canvas, Y-Coord on Canvas
 //Output: none (only draws the pieces using .png images (inlcuded in folder) on the html canvas, 'HTMLchessboard')
 //NOTE: Only called through "drawChessboard" becuase only it has the appropriate x and y coordinates for the canvas.
@@ -342,7 +342,7 @@ function placePiece (piece, x, y) {
 			var c = document.getElementById("chessboard");
 			var ctx = c.getContext("2d");
 			var whiteRook = new Image();
-			whiteRook.src = "chessPIeces/whiteRook.png";
+			whiteRook.src = "chessPieces/whiteRook.png";
 			whiteRook.onload = function() {
 				ctx.drawImage(whiteRook,x,y,75,75);
 			};	
@@ -351,7 +351,7 @@ function placePiece (piece, x, y) {
 			var c = document.getElementById("chessboard");
 			var ctx = c.getContext("2d");
 			var whiteKnight = new Image();
-			whiteKnight.src = "chessPIeces/whiteKnight.png";
+			whiteKnight.src = "chessPieces/whiteKnight.png";
 			whiteKnight.onload = function() {
 				ctx.drawImage(whiteKnight,x,y,75,75);
 			};	
@@ -360,7 +360,7 @@ function placePiece (piece, x, y) {
 			var c = document.getElementById("chessboard");
 			var ctx = c.getContext("2d");
 			var whiteBishop = new Image();
-			whiteBishop.src = "chessPIeces/whiteBishop.png";
+			whiteBishop.src = "chessPieces/whiteBishop.png";
 			whiteBishop.onload = function() {
 				ctx.drawImage(whiteBishop,x,y,75,75);
 			};	
@@ -369,7 +369,7 @@ function placePiece (piece, x, y) {
 			var c = document.getElementById("chessboard");
 			var ctx = c.getContext("2d");
 			var whiteQueen = new Image();
-			whiteQueen.src = "chessPIeces/whiteQueen.png";
+			whiteQueen.src = "chessPieces/whiteQueen.png";
 			whiteQueen.onload = function() {
 				ctx.drawImage(whiteQueen,x,y,75,75);
 			};	
@@ -378,7 +378,7 @@ function placePiece (piece, x, y) {
 			var c = document.getElementById("chessboard");
 			var ctx = c.getContext("2d");
 			var whiteKing = new Image();
-			whiteKing.src = "chessPIeces/whiteKing.png";
+			whiteKing.src = "chessPieces/whiteKing.png";
 			whiteKing.onload = function() {
 				ctx.drawImage(whiteKing,x,y,75,75);
 			};	
@@ -387,7 +387,7 @@ function placePiece (piece, x, y) {
 			var c = document.getElementById("chessboard");
 			var ctx = c.getContext("2d");
 			var whitePawn = new Image();
-			whitePawn.src = "chessPIeces/whitePawn.png";
+			whitePawn.src = "chessPieces/whitePawn.png";
 			whitePawn.onload = function() {
 				ctx.drawImage(whitePawn,x,y,75,75);
 			};	
@@ -396,7 +396,7 @@ function placePiece (piece, x, y) {
 			var c = document.getElementById("chessboard");
 			var ctx = c.getContext("2d");
 			var blackRook = new Image();
-			blackRook.src = "chessPIeces/blackRook.png";
+			blackRook.src = "chessPieces/blackRook.png";
 			blackRook.onload = function() {
 				ctx.drawImage(blackRook,x,y,75,75);
 			};	
@@ -405,7 +405,7 @@ function placePiece (piece, x, y) {
 			var c = document.getElementById("chessboard");
 			var ctx = c.getContext("2d");
 			var blackKnight = new Image();
-			blackKnight.src = "chessPIeces/blackKnight.png";
+			blackKnight.src = "chessPieces/blackKnight.png";
 			blackKnight.onload = function() {
 				ctx.drawImage(blackKnight,x,y,75,75);
 			};	
@@ -414,7 +414,7 @@ function placePiece (piece, x, y) {
 			var c = document.getElementById("chessboard");
 			var ctx = c.getContext("2d");
 			var blackBishop = new Image();
-			blackBishop.src = "chessPIeces/blackBishop.png";
+			blackBishop.src = "chessPieces/blackBishop.png";
 			blackBishop.onload = function() {
 				ctx.drawImage(blackBishop,x,y,75,75);
 			};	
@@ -423,7 +423,7 @@ function placePiece (piece, x, y) {
 			var c = document.getElementById("chessboard");
 			var ctx = c.getContext("2d");
 			var blackQueen = new Image();
-			blackQueen.src = "chessPIeces/blackQueen.png";
+			blackQueen.src = "chessPieces/blackQueen.png";
 			blackQueen.onload = function() {
 				ctx.drawImage(blackQueen,x,y,75,75);
 			};	
@@ -432,7 +432,7 @@ function placePiece (piece, x, y) {
 			var c = document.getElementById("chessboard");
 			var ctx = c.getContext("2d");
 			var blackKing = new Image();
-			blackKing.src = "chessPIeces/blackKing.png";
+			blackKing.src = "chessPieces/blackKing.png";
 			blackKing.onload = function() {
 				ctx.drawImage(blackKing,x,y,75,75);
 			};	
@@ -441,7 +441,7 @@ function placePiece (piece, x, y) {
 			var c = document.getElementById("chessboard");
 			var ctx = c.getContext("2d");
 			var blackPawn = new Image();
-			blackPawn.src = "chessPIeces/blackPawn.png";
+			blackPawn.src = "chessPieces/blackPawn.png";
 			blackPawn.onload = function() {
 				ctx.drawImage(blackPawn,x,y,75,75);
 			};
